@@ -6,6 +6,7 @@ body {
     display: flex;
     height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 aside {
@@ -106,7 +107,7 @@ main h1 {
     background-color: #e6f7ff; 
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
+    margin: auto;
     max-width: 800px;
 }
 
@@ -347,3 +348,25 @@ main h1 {
 }
 
 
+footer {
+    background-color: #004080; /* Dark blue background for contrast */
+    color: #fff; /* White text */
+    text-align: center; /* Center-align text */
+    padding: 10px 20px; /* Padding for spacing */
+    font-size: 0.9rem; /* Slightly smaller text size */
+    position: fixed; /* Keep the footer at the bottom */
+    bottom: 0; /* Position at the bottom */
+    width: 100%; /* Full width */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+}
+
+body {
+    margin-bottom: 40px; /* Leave space for the footer */
+}
+
+@media screen and (max-width: 768px) {
+    footer {
+        font-size: 0.8rem; /* Adjust font size for smaller screens */
+        padding: 8px; /* Reduce padding for smaller devices */
+    }
+}
