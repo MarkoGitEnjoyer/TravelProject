@@ -9,4 +9,5 @@ urlpatterns = [
     path("trip_list/", views.trip_list, name="trip_list"),
     path("registration/", views.registration, name="registration"),
     path("confirmation/<int:registration_id>/", views.confirmation, name="confirmation"),
+    path("Checkout/", views.Checkout,name="Checkout")
 ] + static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

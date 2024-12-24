@@ -7,6 +7,8 @@ from .forms import RegistrationForm
 def home(request):
     return render(request, "main/home.html")
 
+def Checkout(request):
+    return render(request, "main/Checkout.html")
 def trip_list(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
