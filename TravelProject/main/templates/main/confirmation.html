@@ -1,0 +1,12 @@
+{% extends 'main/mainlayout.html' %}
+
+{% block title %}
+Confirmation
+{% endblock %}
+
+{% block content %}
+<div class="confirmation-container">
+    <h1>Thank You for Registering!</h1>
+    <p>Thank you, <strong>{{ registration.first_name }} {{ registration.last_name }}</strong>! Your registration is confirmed.</p>
+</div>
+{% endblock %}

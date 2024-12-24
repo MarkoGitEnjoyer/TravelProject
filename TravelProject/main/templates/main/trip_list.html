@@ -1,0 +1,33 @@
+{% extends 'main/mainlayout.html' %}
+
+{% load static %}
+
+{% block title %}
+Trips
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 style="color:#fff;" class="text-center">Available Trips</h1>
+    <div class="row">
+        {% for trip in trips %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{% static trip.image %}" class="card-img-top" alt="{{ trip.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ trip.name }}</h5>
+                    <p class="card-text">{{ trip.description }}</p>
+                    <ul>
+                        <li>Date: {{ trip.date }}</li>
+                        <li>Time: {{ trip.time }}</li>
+                        <li>Meeting Point: {{ trip.meeting_point }}</li>
+                        <li>Cost: ${{ trip.cost }}</li>
+                    </ul>
+                    <a href="{{ trip.link }}" class="btn btn-primary" target="_blank">Learn More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

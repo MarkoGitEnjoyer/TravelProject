@@ -1,0 +1,16 @@
+{% extends 'main/mainlayout.html' %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<div class="registration-form-container">
+    <h1>Register for a Trip</h1>
+    <form method="POST" class="registration-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-submit">Submit</button>
+    </form>
+</div>
+{% endblock %}
