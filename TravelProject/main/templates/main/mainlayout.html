@@ -9,15 +9,7 @@
     <title>{%block title %}{%endblock%}</title>
 </head>
 <body>
-    <aside>
-        <a href="{% url 'home' %}"><li><img src="{% static 'main/images/travelLogo.png' %}" alt=""></li></a>
-        
-        <span class="logo">Navigation</span></h3>
-        <ul>
-           <a href="{% url 'trip_list' %}"><li>Travels</li></a>
-           <a href="{% url 'registration' %}"><li>Registration</li></a>
-        </ul>
-    </aside>
+   
     <main>
         {%block content %}
         {%endblock%}
