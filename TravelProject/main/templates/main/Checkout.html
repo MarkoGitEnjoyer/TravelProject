@@ -7,10 +7,9 @@ CheakOut
 {% block content %}
 <div class="registration-form-container">
     <h1>Register for a Trip</h1>
-    <form method="POST" class="registration-form">
+    <form method="POST" action="{% url 'register_for_trip' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-submit">Submit</button>
+        <button type="submit" class="btn-submit">Buy</button>
     </form>
 </div>
 {% endblock %}

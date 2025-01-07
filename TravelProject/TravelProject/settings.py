@@ -16,6 +16,17 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# settings.py
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail's SMTP server, but you can use any SMTP server
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'saitama100new@gmail.com'  # Your Gmail or SMTP username
+EMAIL_HOST_PASSWORD = 'Stavg2005'  # Your Gmail or SMTP password
+DEFAULT_FROM_EMAIL = 'saitama100new@gmail.com'  # Default sender's email
+ # Your email address
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -123,6 +134,14 @@ STATIC_URL = "main/static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = '0d1fec167f8da8a617eeaf3151f50bbf'
+MAILJET_API_SECRET = '56d3d73e4fb1f2b28ec79679acf50e8e'
+EMAIL_HOST = 'in-v3.mailjet.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Mr.G <in-v3.mailjet.com>'
 
 STATICFILES_DIRS = [
     BASE_DIR / "main/static",
