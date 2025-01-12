@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Trip(models.Model):
+    trip_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.TextField()
     image = models.CharField(max_length=200)
@@ -16,6 +17,7 @@ class Trip(models.Model):
         return self.name
 
 class Registration(models.Model):
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(
