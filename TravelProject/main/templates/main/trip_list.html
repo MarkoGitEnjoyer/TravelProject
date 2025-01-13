@@ -24,6 +24,7 @@ Trips
                         <li>Cost: ${{ trip.cost }}</li>
                     </ul>
                     <a href="{{ trip.link }}" class="btn btn-primary" target="_blank">Learn More</a>
+                    <a href="{% url 'registration' trip.trip_id %}" class="btn btn-primary">Register</a>
                 </div>
             </div>
         </div>
