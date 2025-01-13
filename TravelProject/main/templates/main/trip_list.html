@@ -23,7 +23,7 @@ Trips
                         <li>Meeting Point: {{ trip.meeting_point }}</li>
                         <li>Cost: ${{ trip.cost }}</li>
                     </ul>
-                    <a href="{% url 'trip_info' trip.trip_id %}" class="btn btn-primary" target="_blank">Learn More</a>
+                    <a href="{% url 'trip_info' trip.trip_id %}" class="btn btn-primary">Learn More</a>
                     <a href="{% url 'registration' trip.trip_id %}" class="btn btn-primary">Register</a>
                 </div>
             </div>

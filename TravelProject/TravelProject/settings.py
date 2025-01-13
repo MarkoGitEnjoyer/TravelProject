@@ -19,13 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # settings.py
 # settings.py
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Gmail's SMTP server, but you can use any SMTP server
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'saitama100new@gmail.com'  # Your Gmail or SMTP username
-EMAIL_HOST_PASSWORD = 'Stavg2005'  # Your Gmail or SMTP password
-DEFAULT_FROM_EMAIL = 'saitama100new@gmail.com'  # Default sender's email
+ # Default sender's email
  # Your email address
 
 # Quick-start development settings - unsuitable for production

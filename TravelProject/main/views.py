@@ -15,7 +15,7 @@ def send_custom_email(request, recipient_email, message_string):
     send_mail(
         'Thank you for ordering ',  # Replace with your desired subject
         message_string,  # The message string passed as a parameter
-        'John Doe <john.doe@example.com>',  # The sender's name and email
+        'Mr.G <saitama100new@gmail.com>',  # The sender's name and email
         [recipient_email],  # The recipient's email address passed as a parameter
         fail_silently=False,
     )
