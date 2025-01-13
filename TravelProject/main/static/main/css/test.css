@@ -290,3 +290,15 @@ body {
     }
 }
 
+.navbar-custom {
+    background-color: #004080;
+}
+
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand {
+    color: white;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #cce6ff; /* Light blue hover effect */
+}
