@@ -7,15 +7,8 @@ from .forms import RegistrationForm
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.http import JsonResponse
-
-
-from django.core.mail import send_mail
 from django.conf import settings
-
-from django.core.mail import send_mail
 from django.http import HttpResponse
-
-from django.core.mail import send_mail
 
 
 def send_custom_email(request, recipient_email, message_string):
@@ -29,6 +22,9 @@ def send_custom_email(request, recipient_email, message_string):
     return HttpResponse("Email sent successfully!")
 
 
+def trip_info(request, trip_id):
+    trip = get_object_or_404(Trip, trip_id=trip_id)
+    return render(request, "main/trip_info.html", {"trip": trip})
 
 def home(request):
     trips = Trip.objects.all() 

@@ -1,0 +1,34 @@
+{% extends 'main/mainlayout.html' %}
+{% load static %}
+
+{% block title %}
+Trip Information
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center" style="color: #2318be;">{{ trip.name }}</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{% static trip.image %}" class="img-fluid rounded" alt="{{ trip.name }}">
+        </div>
+        <div class="col-md-6">
+            <h3>Description</h3>
+            <p>{{ trip.description }}</p>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Date:</strong> {{ trip.date }}</li>
+                <li class="list-group-item"><strong>Time:</strong> {{ trip.time }}</li>
+                <li class="list-group-item"><strong>Meeting Point:</strong> {{ trip.meeting_point }}</li>
+                <li class="list-group-item"><strong>Cost per Ticket:</strong> ${{ trip.cost }}</li>
+            </ul>
+            <form action="{% url 'registration' trip.trip_id %}" method="get" class="mt-4">
+                <div class="mb-3">
+                    <label for="tickets" class="form-label"><strong>Number of Tickets:</strong></label>
+                    <input type="number" id="tickets" name="tickets" class="form-control" min="1" value="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

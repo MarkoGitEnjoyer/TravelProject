@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from .views import send_custom_email
 urlpatterns = [
+    path("trip_info/<int:trip_id>/", views.trip_info, name="trip_info"),
     path("", views.home, name="home"),
     path("trip_list/", views.trip_list, name="trip_list"),
     path("registration/<int:trip_id>", views.registration, name="registration"),
