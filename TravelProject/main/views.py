@@ -11,13 +11,24 @@ from django.conf import settings
 from django.http import HttpResponse
 
 
-import qrcode
-from io import BytesIO
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+import qrcode
+from io import BytesIO
 
+def send_custom_email(request, recipient_email, first_name, last_name, trip_name, message_string, user_id):
+    """
+    Sends a custom email with trip details, QR code, and personalized name.
 
-def send_custom_email(request, recipient_email, trip_name,message_string, user_id):
+    Args:
+        request: The HTTP request object.
+        recipient_email (str): Recipient's email address.
+        first_name (str): Recipient's first name.
+        last_name (str): Recipient's last name.
+        trip_name (str): Name of the trip ordered.
+        message_string (str): Additional details or a custom message.
+        user_id (str): Unique identifier for generating the QR code.
+    """
     # Generate QR code based on user_id
     qr = qrcode.QRCode(
         version=1,
@@ -32,18 +43,41 @@ def send_custom_email(request, recipient_email, trip_name,message_string, user_i
     img_io = BytesIO()
     img.save(img_io, format='PNG')
     img_io.seek(0)  
+    img_io.seek(0)  # Reset the stream to the beginning
+
+    # Create a personalized subject and body
+    subject = f"Trip Confirmation for {trip_name}"
+    body = f"""
+    Hi {first_name} {last_name},
+
+    Thank you for booking your trip with us! Here are the details:
+
+    Trip Name: {trip_name}
+    Additional Information: {message_string}
+
+    Please find your trip ticket attached as a QR code. You can present this code upon arrival.
+
+    If you have any questions, feel free to reach out to us.
+
+    Best regards,
+    Your Travel Team
+    """
 
     email = EmailMessage(
-        subject=f'Thank you for ordering trip{message_string} ',
-        body="you have ordered trip{message_string",
+        subject=subject,
+        body=body,
         from_email='Mr.G <saitama100new@gmail.com>',
         to=[recipient_email],
     )
     email.attach('Trip_Ticket.png', img_io.getvalue(), 'image/png')
 
     # Send the email
-    email.send(fail_silently=False)
-    return HttpResponse("Email with QR code sent successfully!")
+    try:
+        email.send(fail_silently=False)
+        return HttpResponse("Email with QR code sent successfully!")
+    except Exception as e:
+        return HttpResponse(f"Failed to send email: {e}", status=500)
+
 
 
 def trip_info(request, trip_id):
