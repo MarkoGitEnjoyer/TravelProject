@@ -9,10 +9,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
 from django.http import HttpResponse
-
-
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 import qrcode
 from io import BytesIO
 
@@ -110,7 +107,7 @@ def Checkout(request, registration_id):
             last_name=registration.last_name,
             trip_name=registration.trip.name,
             message_string=f" for trip {registration.trip.name}",
-            user_id=registration.id
+            user_id=registration.id_number
         )
 
         # Redirect to the confirmation page
