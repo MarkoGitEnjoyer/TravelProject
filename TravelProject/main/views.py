@@ -29,7 +29,6 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
         message_string (str): Additional details or a custom message.
         user_id (str): Unique identifier for generating the QR code.
     """
-    # Generate QR code based on user_id
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -43,9 +42,9 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
     img_io = BytesIO()
     img.save(img_io, format='PNG')
     img_io.seek(0)  
-    img_io.seek(0)  # Reset the stream to the beginning
 
-    # Create a personalized subject and body
+    trip = Trip.objects.get(name=trip_name)
+
     subject = f"Trip Confirmation for {trip_name}"
     body = f"""
     Hi {first_name} {last_name},
@@ -53,6 +52,9 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
     Thank you for booking your trip with us! Here are the details:
 
     Trip Name: {trip_name}
+    Date: {trip.date}
+    Time: {trip.time}
+    Meeting Point: {trip.meeting_point}
     Additional Information: {message_string}
 
     Please find your trip ticket attached as a QR code. You can present this code upon arrival.
@@ -80,6 +82,7 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
 
 
 
+
 def trip_info(request, trip_id):
     trip = get_object_or_404(Trip, trip_id=trip_id)
     return render(request, "main/trip_info.html", {"trip": trip})
@@ -103,6 +106,8 @@ def Checkout(request, registration_id):
         send_custom_email(
             request,
             recipient_email=registration.email,
+            first_name=registration.first_name,
+            last_name=registration.last_name,
             trip_name=registration.trip.name,
             message_string=f" for trip {registration.trip.name}",
             user_id=registration.id
