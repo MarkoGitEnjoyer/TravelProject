@@ -12,7 +12,12 @@ urlpatterns = [
     path("registration/<int:trip_id>", views.registration, name="registration"),
     path("confirmation/<int:registration_id>/", views.confirmation, name="confirmation"),
     path("Checkout/", views.Checkout,name="Checkout"),
-    path('send-email/<str:recipient_email>/<str:message_string>/<str:user_id>/', views.send_custom_email, name='send_custom_email'),
+    path(
+    'send-email/<str:recipient_email>/<str:first_name>/<str:last_name>/<str:trip_name>/<str:message_string>/<str:user_id>/',
+    views.send_custom_email,
+    name='send_custom_email'
+),
+
 
 
 ] + static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
