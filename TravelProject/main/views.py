@@ -28,13 +28,11 @@ def send_custom_email(request, recipient_email, trip_name,message_string, user_i
     qr.add_data(user_id)
     qr.make(fit=True)
 
-    # Save the QR code as an image in memory
     img = qr.make_image(fill_color="black", back_color="white")
     img_io = BytesIO()
     img.save(img_io, format='PNG')
-    img_io.seek(0)  # Reset the stream to the beginning
+    img_io.seek(0)  
 
-    # Create an email with an attachment
     email = EmailMessage(
         subject=f'Thank you for ordering trip{message_string} ',
         body="you have ordered trip{message_string",
@@ -56,8 +54,32 @@ def home(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
 
-def Checkout(request):
-    return render(request, "main/Checkout.html")
+def Checkout(request, registration_id):
+    registration = get_object_or_404(Registration, id=registration_id)
+    if request.method == "POST":
+        # Update registration details if necessary
+        registration.first_name = request.POST.get("first_name")
+        registration.last_name = request.POST.get("last_name")
+        registration.phone = request.POST.get("phone")
+        registration.email = request.POST.get("email")
+        registration.id_number = request.POST.get("passport_id")
+        registration.save()
+
+        # Send the email
+        send_custom_email(
+            request,
+            recipient_email=registration.email,
+            trip_name=registration.trip.name,
+            message_string=f" for trip {registration.trip.name}",
+            user_id=registration.id
+        )
+
+        # Redirect to the confirmation page
+        return redirect(reverse("confirmation", kwargs={"registration_id": registration.id}))
+
+    return render(request, "main/Checkout.html", {'registration': registration})
+
+
 def trip_list(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
@@ -70,7 +92,7 @@ def registration(request, trip_id):
             registration = form.save(commit=False)  
             registration.trip = trip  
             registration.save()  
-            return redirect(reverse("confirmation", kwargs={"registration_id": registration.id}))
+            return redirect(reverse("Checkout", kwargs={"registration_id": registration.id}))
     else:
         form = RegistrationForm()
     return render(request, "main/registration.html", {"trip": trip, "form": form})

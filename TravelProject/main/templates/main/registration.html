@@ -6,7 +6,7 @@ Register
 
 {% block content %}
 <div class="registration-form-container">
-    <h1>Register for a Trip</h1>
+    <h1>Register for a {{trip.name}}</h1>
     <form method="POST" class="registration-form">
         {% csrf_token %}
         {{ form.as_p }}

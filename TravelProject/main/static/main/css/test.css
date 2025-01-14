@@ -50,7 +50,7 @@ body {
     }
 }
 
-.container {
+.main-container {
     background-color: #f9f9f9; 
     padding: 20px;
     border-radius: 10px;
@@ -156,7 +156,7 @@ body {
 }
 
 .registration-form-container h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #004080; 
     margin-bottom: 20px;
     text-transform: uppercase;
@@ -286,7 +286,6 @@ footer {
     }
 }
 
-<<<<<<< HEAD
 .navbar-custom {
     background-color: #004080;
 }
@@ -299,7 +298,6 @@ footer {
 .navbar-custom .nav-link:hover {
     color: #cce6ff; /* Light blue hover effect */
 }
-=======
 
 
 h2 {
@@ -413,4 +411,3 @@ input[type="checkbox"] {
     }
 }
 
->>>>>>> a52d3850593ce0522116918108144f5606741c3a
