@@ -120,6 +120,10 @@ def trip_list(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
 
+def contact_us(request):
+    return render(request, "main/contact_us.html")
+
+
 def registration(request, trip_id):
     trip = get_object_or_404(Trip, trip_id=trip_id)
     if request.method == "POST":
