@@ -65,7 +65,7 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
     email = EmailMessage(
         subject=subject,
         body=body,
-        from_email='Mr.G <saitama100new@gmail.com>',
+        from_email='My trips <saitama100new@gmail.com>',
         to=[recipient_email],
     )
     email.attach('Trip_Ticket.png', img_io.getvalue(), 'image/png')
