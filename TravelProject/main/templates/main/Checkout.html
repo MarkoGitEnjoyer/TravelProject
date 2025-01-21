@@ -8,6 +8,7 @@ Checkout
 <form method="post" action="{% url 'Checkout' registration.id %}">
     {% csrf_token %}
     <div class="form-grid">
+        <!-- Personal Details Section -->
         <div class="form-group">
             <label for="first_name">First Name:</label>
             <input type="text" id="first_name" value="{{registration.first_name}}" name="first_name" required>
@@ -52,9 +53,35 @@ Checkout
             <label for="terms">I agree to the terms and conditions</label>
             <input type="checkbox" id="terms" name="terms" required>
         </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <h3>Payment Information</h3>
+            <div class="form-group">
+                <label for="credit-card">Credit Card Number:</label>
+                <input type="text" id="credit-card" placeholder="1234 5678 9012 3456">
+            </div>
+            <div class="payment-row">
+                <div class="form-group">
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" placeholder="123">
+                </div>
+                <div class="form-group">
+                    <label for="expiration-date">Expiration Date:</label>
+                    <input type="text" id="expiration-date" placeholder="MM/YY">
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
         <div class="form-group full-width">
             <button type="submit" class="submit-btn">Submit</button>
         </div>
     </div>
 </form>
+
+<style>
+ 
+</style>
+
 {% endblock %}
