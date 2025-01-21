@@ -5,6 +5,12 @@
 {% block content %}
 <div class="main-container mt-4">
     <h1 style="color:#2318be;" class="text-center">Registrations Spreadsheet</h1>
+    
+    <!-- Download Excel Button -->
+    <div class="text-center mb-4">
+        <a href="{% url 'download_excel' %}" class="btn btn-primary">Download as Excel</a>
+    </div>
+    
     <div class="table-responsive">
         <table class="table table-bordered table-hover text-center">
             <thead class="table-primary">
@@ -14,6 +20,8 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th> Passport ID</th>
+               <th>Trip Name</th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
@@ -37,6 +45,12 @@
                             <input type="text" name="phone" value="{{ registration.phone }}" class="form-control form-control-sm">
                         </td>
                         <td>
+                            <input type="text" name="Passport_id" value="{{ registration.id_number }}" class="form-control form-control-sm">
+                        </td>
+                        <td>
+                            <input  type="text" readonly name="Trip_Name" value="{{ registration.trip.name }}" class="form-control form-control-sm">
+                        </td>
+                        <td>
                             <button type="submit" class="btn btn-success btn-sm me-1">Update</button>
                         </td>
                     </form>
@@ -44,11 +58,10 @@
                     <!-- Delete form (separate form for the delete action) -->
                     <form method="POST" action="{% url 'delete_registration' registration.id %}" style="display: inline;">
                         {% csrf_token %}
-                        <!-- Style to make the delete button match the update button -->
-                         <td>
-                            <button type="submit" class="btn btn-danger btn-sm me-1" style="height: 35px;">Delete</button>
-                         </td>
-                       
+                        <td>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </td>
+                        
                     </form>
                 </tr>
                 {% endfor %}

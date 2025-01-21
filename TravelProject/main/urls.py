@@ -12,6 +12,7 @@ urlpatterns = [
     path('registrations/edit/<int:id>/', views.update_registration, name='update_registration'),
     path('registrations/delete/<int:id>/', views.delete_registration, name='delete_registration'),
     path("spreadsheet/", views.spreadsheet, name="spreadsheet"),
+    path('download_excel/', views.download_excel, name='download_excel'),
     path("contact_us/", views.contact_us, name="contact_us"),
     path("registration/<int:trip_id>", views.registration, name="registration"),
     path("confirmation/<int:registration_id>/", views.confirmation, name="confirmation"),

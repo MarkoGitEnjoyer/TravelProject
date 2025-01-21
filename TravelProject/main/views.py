@@ -21,6 +21,8 @@ def update_registration(request, id):
         registration.last_name = request.POST['last_name']
         registration.email = request.POST['email']
         registration.phone = request.POST['phone']
+        registration.id_number = request.POST['id_number']
+        registration.trip.name = request.POST['trip_name']
         registration.save()
         return redirect('spreadsheet')  
     return HttpResponseRedirect('/')
@@ -170,3 +172,31 @@ def registration(request, trip_id):
 def confirmation(request, registration_id):
     registration = Registration.objects.get(id=registration_id)
     return render(request, "main/confirmation.html", {"registration": registration})
+
+import openpyxl
+from django.http import HttpResponse
+from .models import Registration  # import the model you want to export
+
+def download_excel(request):
+    # Create a workbook and add a worksheet
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Registrations"
+    
+    # Add headers
+    ws.append(["#", "First Name", "Last Name", "Email", "Phone","Passport ID", "Trip Name"])
+    
+    # Add data from the database (Registration model in this case)
+    registrations = Registration.objects.all()
+    for idx, registration in enumerate(registrations, start=1):
+        ws.append([idx, registration.first_name, registration.last_name, registration.email, registration.phone,registration.id_number,registration.trip.name])
+    
+    # Set the HTTP response to download the file as an Excel file
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename=registrations.xlsx'
+    
+    # Save the workbook to the response
+    wb.save(response)
+    return response
