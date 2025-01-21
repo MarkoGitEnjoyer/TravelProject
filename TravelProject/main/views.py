@@ -25,11 +25,18 @@ def update_registration(request, id):
         return redirect('spreadsheet')  
     return HttpResponseRedirect('/')
 
+import logging
+logger = logging.getLogger(__name__)
 def delete_registration(request, id):
     if request.method == "POST":
-        print("Deleting registration:", id)  # Debugging line
-        registration = get_object_or_404(Registration, id=id)
-        registration.delete()
+        logger.debug(f"Deleting registration: {id}")  # Log message
+        
+        try:
+            registration = get_object_or_404(Registration, id=id)
+            registration.delete()
+        except Exception as e:
+            logger.error(f"Failed to delete registration: {e}")  # Log error message    
+
     return redirect('spreadsheet')
 
 

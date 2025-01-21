@@ -14,13 +14,14 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Actions</th>
+                    <th colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for registration in registrations %}
                 <tr>
-                    <form method="POST" action="{% url 'update_registration' registration.id %}" class="d-flex align-items-center">
+                    <!-- Update form (separate form for the update action) -->
+                    <form method="POST" action="{% url 'update_registration' registration.id %}" class="d-inline-flex">
                         {% csrf_token %}
                         <td>{{ forloop.counter }}</td>
                         <td>
@@ -37,11 +38,17 @@
                         </td>
                         <td>
                             <button type="submit" class="btn btn-success btn-sm me-1">Update</button>
-                            <form method="POST" action="{% url 'delete_registration' registration.id %}" style="display: inline-block;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>                            
                         </td>
+                    </form>
+
+                    <!-- Delete form (separate form for the delete action) -->
+                    <form method="POST" action="{% url 'delete_registration' registration.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <!-- Style to make the delete button match the update button -->
+                         <td>
+                            <button type="submit" class="btn btn-danger btn-sm me-1" style="height: 35px;">Delete</button>
+                         </td>
+                       
                     </form>
                 </tr>
                 {% endfor %}
