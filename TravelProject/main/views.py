@@ -13,6 +13,27 @@ from django.core.mail import EmailMessage
 import qrcode
 from io import BytesIO
 
+
+def update_registration(request, id):
+    registration = get_object_or_404(Registration, id=id)
+    if request.method == "POST":
+        registration.first_name = request.POST['first_name']
+        registration.last_name = request.POST['last_name']
+        registration.email = request.POST['email']
+        registration.phone = request.POST['phone']
+        registration.save()
+        return redirect('spreadsheet')  
+    return HttpResponseRedirect('/')
+
+def delete_registration(request, id):
+    if request.method == "POST":
+        print("Deleting registration:", id)  # Debugging line
+        registration = get_object_or_404(Registration, id=id)
+        registration.delete()
+    return redirect('spreadsheet')
+
+
+
 def send_custom_email(request, recipient_email, first_name, last_name, trip_name, message_string, user_id):
     """
     Sends a custom email with trip details, QR code, and personalized name.
@@ -70,7 +91,6 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
     )
     email.attach('Trip_Ticket.png', img_io.getvalue(), 'image/png')
 
-    # Send the email
     try:
         email.send(fail_silently=False)
         return HttpResponse("Email with QR code sent successfully!")
@@ -110,7 +130,6 @@ def Checkout(request, registration_id):
             user_id=registration.id_number
         )
 
-        # Redirect to the confirmation page
         return redirect(reverse("confirmation", kwargs={"registration_id": registration.id}))
 
     return render(request, "main/Checkout.html", {'registration': registration})
@@ -120,6 +139,9 @@ def trip_list(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
 
+def spreadsheet(request):
+    registrations = Registration.objects.all() 
+    return  render(request, "main/spreadsheet.html",{"registrations": registrations})
 def contact_us(request):
     return render(request, "main/contact_us.html")
 

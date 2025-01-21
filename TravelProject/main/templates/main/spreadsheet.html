@@ -1,0 +1,52 @@
+{% extends 'main/mainlayout.html' %}
+
+{% block title %}Registrations Spreadsheet{% endblock %}
+
+{% block content %}
+<div class="main-container mt-4">
+    <h1 style="color:#2318be;" class="text-center">Registrations Spreadsheet</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registration in registrations %}
+                <tr>
+                    <form method="POST" action="{% url 'update_registration' registration.id %}" class="d-flex align-items-center">
+                        {% csrf_token %}
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <input type="text" name="first_name" value="{{ registration.first_name }}" class="form-control form-control-sm">
+                        </td>
+                        <td>
+                            <input type="text" name="last_name" value="{{ registration.last_name }}" class="form-control form-control-sm">
+                        </td>
+                        <td>
+                            <input type="email" name="email" value="{{ registration.email }}" class="form-control form-control-sm">
+                        </td>
+                        <td>
+                            <input type="text" name="phone" value="{{ registration.phone }}" class="form-control form-control-sm">
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-success btn-sm me-1">Update</button>
+                            <form method="POST" action="{% url 'delete_registration' registration.id %}" style="display: inline-block;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>                            
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
