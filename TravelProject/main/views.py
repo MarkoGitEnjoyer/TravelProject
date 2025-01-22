@@ -177,7 +177,7 @@ def admin_login(request):
         else:
             return redirect('login')  # Invalid credentials
 
-    return render(request, 'login.html')
+    return render(request, 'main/login.html')
 
 
 def contact_us(request):
