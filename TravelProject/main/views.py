@@ -1,17 +1,18 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from .models import Registration
-from .models import Trip
+from .models import Registration, Trip
 from .forms import RegistrationForm
-
-from django.core.mail import send_mail
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.conf import settings
-from django.http import HttpResponse
-from django.core.mail import EmailMessage
-import qrcode
 from io import BytesIO
+from django.core.mail import send_mail
+from django.http import JsonResponse, HttpResponse
+from django.conf import settings
+from django.core.mail import EmailMessage
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+import openpyxl
+import qrcode
+import logging
 
 
 def update_registration(request, id):
@@ -27,7 +28,6 @@ def update_registration(request, id):
         return redirect('spreadsheet')  
     return HttpResponseRedirect('/')
 
-import logging
 logger = logging.getLogger(__name__)
 def delete_registration(request, id):
     if request.method == "POST":
@@ -37,8 +37,7 @@ def delete_registration(request, id):
             registration = get_object_or_404(Registration, id=id)
             registration.delete()
         except Exception as e:
-            logger.error(f"Failed to delete registration: {e}")  # Log error message    
-
+            logger.error(f"Failed to delete registration: {e}")  
     return redirect('spreadsheet')
 
 
@@ -148,8 +147,6 @@ def trip_list(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 
 @login_required
 def spreadsheet(request):
@@ -158,9 +155,7 @@ def spreadsheet(request):
     return render(request, "main/spreadsheet.html", {"registrations": registrations})
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
+
 
 def admin_login(request):
     if request.method == 'POST':
@@ -169,13 +164,13 @@ def admin_login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            if user.is_superuser:  # Check if the user is an admin
-                login(request, user)  # Log the user in
-                return redirect('/trip_list/')  # Redirect to the Django admin page
+            if user.is_superuser:  
+                login(request, user)  
+                return redirect('/trip_list/') 
             else:
-                return redirect('login')  # Redirect back to login if not admin
+                return redirect('login') 
         else:
-            return redirect('login')  # Invalid credentials
+            return redirect('login')  
 
     return render(request, 'main/login.html')
 
@@ -202,17 +197,13 @@ def confirmation(request, registration_id):
     registration = Registration.objects.get(id=registration_id)
     return render(request, "main/confirmation.html", {"registration": registration})
 
-import openpyxl
-from django.http import HttpResponse
-from .models import Registration  # import the model you want to export
+
 
 def download_excel(request):
-    # Create a workbook and add a worksheet
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Registrations"
     
-    # Add headers
     ws.append(["#", "First Name", "Last Name", "Email", "Phone","Passport ID", "Trip Name"])
     
     # Add data from the database (Registration model in this case)
@@ -220,13 +211,11 @@ def download_excel(request):
     for idx, registration in enumerate(registrations, start=1):
         ws.append([idx, registration.first_name, registration.last_name, registration.email, registration.phone,registration.id_number,registration.trip.name])
     
-    # Set the HTTP response to download the file as an Excel file
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
     response['Content-Disposition'] = 'attachment; filename=registrations.xlsx'
     
-    # Save the workbook to the response
     wb.save(response)
     return response
 

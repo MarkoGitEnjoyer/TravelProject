@@ -6,7 +6,6 @@
 <div class="main-container mt-4">
     <h1 style="color:#2318be;" class="text-center">Registrations Spreadsheet</h1>
     
-    <!-- Download Excel Button -->
     <div class="text-center mb-4">
         <a href="{% url 'download_excel' %}" class="btn btn-primary">Download as Excel</a>
     </div>
@@ -28,7 +27,6 @@
             <tbody>
                 {% for registration in registrations %}
                 <tr>
-                    <!-- Update form (separate form for the update action) -->
                     <form method="POST" action="{% url 'update_registration' registration.id %}" class="d-inline-flex">
                         {% csrf_token %}
                         <td>{{ forloop.counter }}</td>
@@ -55,7 +53,6 @@
                         </td>
                     </form>
 
-                    <!-- Delete form (separate form for the delete action) -->
                     <form method="POST" action="{% url 'delete_registration' registration.id %}" style="display: inline;">
                         {% csrf_token %}
                         <td>

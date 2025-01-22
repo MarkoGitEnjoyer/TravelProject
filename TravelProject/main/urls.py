@@ -1,11 +1,11 @@
 from django.urls import path
 from . import views
-
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from .views import send_custom_email
 from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     path("trip_info/<int:trip_id>/", views.trip_info, name="trip_info"),
     path("", views.home, name="home"),

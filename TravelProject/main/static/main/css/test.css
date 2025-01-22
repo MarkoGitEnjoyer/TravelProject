@@ -321,7 +321,7 @@ form {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    max-width: 800px; /* Ensure the form stays centered and compact */
+    max-width: 800px; 
     margin: 0 auto; 
 }
 
@@ -438,7 +438,7 @@ input[type="checkbox"] {
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #f8f9fa;
-    box-sizing: border-box; /* Ensure proper alignment */
+    box-sizing: border-box; 
 }
 
 .payment-section h3 {
