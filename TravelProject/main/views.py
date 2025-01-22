@@ -148,9 +148,32 @@ def trip_list(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+@login_required
 def spreadsheet(request):
-    registrations = Registration.objects.all() 
-    return  render(request, "main/spreadsheet.html",{"registrations": registrations})
+    print(f"Is user authenticated? {request.user.is_authenticated}")
+    registrations = Registration.objects.all()
+    return render(request, "main/spreadsheet.html", {"registrations": registrations})
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+
+def admin_login(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')  # Redirect to a page after login
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'login.html', {'form': form})
+
 def contact_us(request):
     return render(request, "main/contact_us.html")
 
@@ -200,3 +223,10 @@ def download_excel(request):
     # Save the workbook to the response
     wb.save(response)
     return response
+
+from django.contrib.auth.decorators import login_required
+
+
+
+from django.shortcuts import redirect
+
