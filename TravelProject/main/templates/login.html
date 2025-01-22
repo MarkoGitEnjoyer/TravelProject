@@ -7,7 +7,7 @@ Login
 {% block content %}
 <div class="registration-form-container">
     <h1>Login</h1>
-    <form class="registration-form" method="POST" action="/login">
+    <form method="POST" action="/login/">
         {% csrf_token %}
         <div class="form-group">
             <label for="username">Username</label>
@@ -23,6 +23,8 @@ Login
         </div>
         <button type="submit" class="btn-submit">Login</button>
     </form>
-    <p>Don't have an account? <a href="/register" style="color: #004080;">Register here</a>.</p>
+    <p>
+        Don't have an account? <a href="/register">Register here</a>.
+    </p>
 </div>
 {% endblock %}

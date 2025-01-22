@@ -25,7 +25,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
                     </li>
-                   
+                    {% if not user.is.staff%}
+                    <a class="nav-link" href="{% url 'login' %}">Admin Login</a>
+                    {% endif %}
+        
+                    {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'spreadsheet' %}">Spreadsheet</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

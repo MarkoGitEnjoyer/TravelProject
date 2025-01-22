@@ -163,16 +163,22 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
 def admin_login(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')  # Redirect to a page after login
-    else:
-        form = AuthenticationForm()
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
 
-    return render(request, 'login.html', {'form': form})
+        if user is not None:
+            if user.is_superuser:  # Check if the user is an admin
+                login(request, user)  # Log the user in
+                return redirect('/trip_list/')  # Redirect to the Django admin page
+            else:
+                return redirect('login')  # Redirect back to login if not admin
+        else:
+            return redirect('login')  # Invalid credentials
+
+    return render(request, 'login.html')
+
 
 def contact_us(request):
     return render(request, "main/contact_us.html")
@@ -227,6 +233,8 @@ def download_excel(request):
 from django.contrib.auth.decorators import login_required
 
 
-
+from django.contrib.auth import logout
 from django.shortcuts import redirect
-
+def custom_logout(request):
+    logout(request)
+    return redirect('trip_list')
