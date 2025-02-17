@@ -8,12 +8,13 @@ from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 import openpyxl
 import qrcode
 import logging
 
+logger = logging.getLogger(__name__)
 
 def update_registration(request, id):
     registration = get_object_or_404(Registration, id=id)
@@ -28,10 +29,9 @@ def update_registration(request, id):
         return redirect('spreadsheet')  
     return HttpResponseRedirect('/')
 
-logger = logging.getLogger(__name__)
 def delete_registration(request, id):
     if request.method == "POST":
-        logger.debug(f"Deleting registration: {id}")  # Log message
+        logger.debug(f"Deleting registration: {id}")  
         
         try:
             registration = get_object_or_404(Registration, id=id)
@@ -206,7 +206,6 @@ def download_excel(request):
     
     ws.append(["#", "First Name", "Last Name", "Email", "Phone","Passport ID", "Trip Name"])
     
-    # Add data from the database (Registration model in this case)
     registrations = Registration.objects.all()
     for idx, registration in enumerate(registrations, start=1):
         ws.append([idx, registration.first_name, registration.last_name, registration.email, registration.phone,registration.id_number,registration.trip.name])
@@ -219,11 +218,7 @@ def download_excel(request):
     wb.save(response)
     return response
 
-from django.contrib.auth.decorators import login_required
 
-
-from django.contrib.auth import logout
-from django.shortcuts import redirect
 def custom_logout(request):
     logout(request)
     return redirect('trip_list')
