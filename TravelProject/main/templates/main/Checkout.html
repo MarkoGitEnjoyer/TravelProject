@@ -9,14 +9,7 @@ Checkout
     {% csrf_token %}
     <div class="form-grid">
         <!-- Personal Details Section -->
-        <div class="form-group">
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" value="{{registration.first_name}}" name="first_name" required>
-        </div>
-        <div class="form-group">
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" value="{{registration.last_name}}" name="last_name" required>
-        </div>
+
         <div class="form-group">
             <label for="country">Country (optional):</label>
             <input type="text" id="country" name="country">
@@ -29,18 +22,9 @@ Checkout
             <label for="city">City:</label>
             <input type="text" id="city" name="city" required>
         </div>
-        <div class="form-group">
-            <label for="phone">Phone:</label>
-            <input type="tel" id="phone" value="{{registration.phone}}" name="phone" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" value="{{registration.email}}" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="passport_id">Passport ID:</label>
-            <input type="text" id="passport_id" value="{{registration.id_number}}" name="passport_id" required>
-        </div>
+
+
+
         <div class="form-group">
             <label for="drivers_license">Driver's License (optional):</label>
             <input type="text" id="drivers_license" name="drivers_license">
@@ -69,6 +53,10 @@ Checkout
                 <div class="form-group">
                     <label for="expiration-date">Expiration Date:</label>
                     <input type="text" id="expiration-date" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                    <label for="expiration-date">Coupon code </label>
+                    <input type="text" >
                 </div>
             </div>
         </div>

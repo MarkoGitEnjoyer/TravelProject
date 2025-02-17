@@ -31,13 +31,14 @@ SECRET_KEY = 'django-insecure--m3b&-u=$h=8$!7)adum^=w=9(9d!1ns1k(o3i==k4bstxorc(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.203','127.0.0.1','10.6.11.14']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'main',
+    'GuideApp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -141,4 +142,5 @@ DEFAULT_FROM_EMAIL = 'Mr.G <in-v3.mailjet.com>'
 
 STATICFILES_DIRS = [
     BASE_DIR / "main/static",
+    BASE_DIR / "GuideApp/static",
 ]
