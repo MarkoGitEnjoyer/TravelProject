@@ -1,5 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
+from GuideApp.models import Guide  # Import Guide from the guides app
+
 
 # Create your models here.
 
@@ -14,6 +16,7 @@ class Trip(models.Model):
     time = models.TimeField()
     meeting_point = models.CharField(max_length=200)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
+    guide = models.ForeignKey('GuideApp.Guide', on_delete=models.CASCADE, related_name='trips',null=True, default=1)
 
     def __str__(self):
         return self.name

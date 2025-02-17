@@ -5,10 +5,8 @@ from django.conf.urls.static import static
 from django.urls import path
 
 
+
 urlpatterns = [
-    path("index", views.index, name="index")
-
-
-
-
-] + static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+    path('dashboard/', views.guide_dashboard, name='guide_dashboard'),
+]
+urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
