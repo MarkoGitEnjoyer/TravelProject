@@ -33,7 +33,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.0.203','127.0.0.1','10.6.11.14']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -108,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -139,6 +139,11 @@ EMAIL_HOST = 'in-v3.mailjet.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Mr.G <in-v3.mailjet.com>'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTH_USER_MODEL = 'GuideApp.CustomUser'  
 
 STATICFILES_DIRS = [
     BASE_DIR / "main/static",

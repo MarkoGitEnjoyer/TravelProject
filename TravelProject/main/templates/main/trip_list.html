@@ -13,10 +13,10 @@ Trips
         {% for trip in trips %}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{% static trip.image %}" class="card-img-top" alt="{{ trip.name }}">
+                <img src="{{ trip.image.url }}" class="card-img-top" alt="{{ trip.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ trip.name }}</h5>
-                    <p class="card-text">{{ trip.description }}</p>
+                    <p class="card-text">{{ trip.minimizedDescription }}</p>
                     <ul>
                         <li>Date: {{ trip.date }}</li>
                         <li>Time: {{ trip.time }}</li>

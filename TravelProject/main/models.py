@@ -1,6 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
-from GuideApp.models import Guide  # Import Guide from the guides app
+from GuideApp.models import Guide  
 
 
 # Create your models here.
@@ -9,14 +9,13 @@ from GuideApp.models import Guide  # Import Guide from the guides app
 class Trip(models.Model):
     trip_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    minimizedDescription = models.TextField(null = True)
     description = models.TextField()
-    image = models.CharField(max_length=200)
-    link = models.URLField()
+    image = models.ImageField(upload_to='trip_images/') 
     date = models.DateField()
     time = models.TimeField()
     meeting_point = models.CharField(max_length=200)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
-    guide = models.ForeignKey('GuideApp.Guide', on_delete=models.CASCADE, related_name='trips',null=True, default=1)
 
     def __str__(self):
         return self.name
@@ -31,6 +30,7 @@ class Registration(models.Model):
     )    
     email = models.EmailField()
     id_number = models.CharField(max_length=20)
+    attended = models.BooleanField(default=False) 
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

@@ -13,6 +13,9 @@ from django.contrib.auth.forms import AuthenticationForm
 import openpyxl
 import qrcode
 import logging
+from GuideApp.models import Guide
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -119,15 +122,7 @@ def home(request):
 def Checkout(request, registration_id):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == "POST":
-        # Update registration details if necessary
-        registration.first_name = request.POST.get("first_name")
-        registration.last_name = request.POST.get("last_name")
-        registration.phone = request.POST.get("phone")
-        registration.email = request.POST.get("email")
-        registration.id_number = request.POST.get("passport_id")
-        registration.save()
 
-        # Send the email
         send_custom_email(
             request,
             recipient_email=registration.email,
@@ -158,21 +153,28 @@ def spreadsheet(request):
 
 
 def admin_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+    if request.method == "POST":
+        email = request.POST.get("email", "").strip()  
+        password = request.POST.get("password", "").strip()
+
+        if not email or not password:
+            return render(request, "main/login.html", {"error": "Email and password are required."})
+
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
-            if user.is_superuser:  
-                login(request, user)  
-                return redirect('/trip_list/') 
+            login(request, user)
+            if user.is_superuser:
+                return redirect("/trip_list/")
+            elif hasattr(user, "guide"):
+                return redirect("/guide/guide_dashboard/")
             else:
-                return redirect('login') 
+                return redirect("login")
         else:
-            return redirect('login')  
+            return render(request, "main/login.html", {"error": "Invalid email or password."})
 
-    return render(request, 'main/login.html')
+    return render(request, "main/login.html")
+
 
 
 def contact_us(request):

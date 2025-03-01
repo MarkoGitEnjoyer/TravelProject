@@ -1,9 +1,15 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from .managers import CustomUserManager,CustomUser
+from django.conf import settings  
+from django.apps import apps
+
 
 class Guide(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='guide')
+    phone = models.CharField(max_length=15)
+    trip = models.ForeignKey('main.Trip', on_delete=models.SET_NULL, null=True, blank=True, related_name='guides')  
+
 
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
+        return self.user.email  

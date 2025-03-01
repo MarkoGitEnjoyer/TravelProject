@@ -8,7 +8,6 @@ Checkout
 <form method="post" action="{% url 'Checkout' registration.id %}">
     {% csrf_token %}
     <div class="form-grid">
-        <!-- Personal Details Section -->
 
         <div class="form-group">
             <label for="country">Country (optional):</label>
@@ -38,7 +37,6 @@ Checkout
             <input type="checkbox" id="terms" name="terms" required>
         </div>
 
-        <!-- Payment Section -->
         <div class="payment-section">
             <h3>Payment Information</h3>
             <div class="form-group">
