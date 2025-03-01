@@ -13,6 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm
 import openpyxl
 import qrcode
 import logging
+import random
 from GuideApp.models import Guide
 
 
@@ -44,8 +45,23 @@ def delete_registration(request, id):
     return redirect('spreadsheet')
 
 
+def generate_secret_key():
+    return random.randint(1, 999999)
 
-def send_custom_email(request, recipient_email, first_name, last_name, trip_name, message_string, user_id):
+SECRET_KEY = 12345  # Any large prime number
+SHIFT = 6789        # A shift value for extra obfuscation
+
+def hash_number(number):
+    """Hashes a number using a reversible mathematical operation."""
+    return (number * SECRET_KEY) + SHIFT
+
+def dehash_number(hashed_value):
+    """Reverses the hash function to get the original number."""
+    return (hashed_value - SHIFT) // SECRET_KEY
+
+
+
+def send_custom_email(request, recipient_email, first_name, last_name, trip_name, message_string, user_id, SecretKey):
     """
     Sends a custom email with trip details, QR code, and personalized name.
 
@@ -57,7 +73,15 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
         trip_name (str): Name of the trip ordered.
         message_string (str): Additional details or a custom message.
         user_id (str): Unique identifier for generating the QR code.
+        SecretKey (str): Secret key for generating the QR code.
     """
+    import qrcode
+    from io import BytesIO
+    from django.core.mail import EmailMessage
+    from django.http import HttpResponse
+    from .models import Trip  # Ensure Trip model is imported
+
+    # Generate QR code
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -65,15 +89,19 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
         border=4,
     )
     qr.add_data(user_id)
+    qr.add_data('|')
+    qr.add_data(SecretKey)
     qr.make(fit=True)
 
     img = qr.make_image(fill_color="black", back_color="white")
     img_io = BytesIO()
     img.save(img_io, format='PNG')
-    img_io.seek(0)  
+    img_io.seek(0)
 
+    # Fetch trip details
     trip = Trip.objects.get(name=trip_name)
 
+    # Prepare email content
     subject = f"Trip Confirmation for {trip_name}"
     body = f"""
     Hi {first_name} {last_name},
@@ -94,6 +122,7 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
     Your Travel Team
     """
 
+    # Create and send email
     email = EmailMessage(
         subject=subject,
         body=body,
@@ -109,7 +138,7 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
         return HttpResponse(f"Failed to send email: {e}", status=500)
 
 
-
+        
 
 def trip_info(request, trip_id):
     trip = get_object_or_404(Trip, trip_id=trip_id)
@@ -130,7 +159,8 @@ def Checkout(request, registration_id):
             last_name=registration.last_name,
             trip_name=registration.trip.name,
             message_string=f" for trip {registration.trip.name}",
-            user_id=registration.id_number
+            user_id=registration.id_number,
+            SecretKey=dehash_number(int(registration.SecretKey)),
         )
 
         return redirect(reverse("confirmation", kwargs={"registration_id": registration.id}))
@@ -188,6 +218,9 @@ def registration(request, trip_id):
         if form.is_valid():
             registration = form.save(commit=False)  
             registration.trip = trip  
+            sec = generate_secret_key()
+            sec = hash_number(sec)
+            registration.SecretKey = sec
             registration.save()  
             return redirect(reverse("Checkout", kwargs={"registration_id": registration.id}))
     else:

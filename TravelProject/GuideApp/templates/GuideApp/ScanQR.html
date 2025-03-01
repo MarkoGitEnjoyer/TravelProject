@@ -1,0 +1,46 @@
+<video id="video" autoplay playsinline muted></video>
+<button id="startButton">Start Camera</button>
+<button id="stopButton">Stop Camera</button>
+<canvas id="canvas"></canvas>
+
+<script>
+    const video = document.getElementById('video');
+const startButton = document.getElementById('startButton');
+const stopButton = document.getElementById('stopButton');
+let stream;
+
+// Start Camera
+startButton.addEventListener('click', async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment' } // Use rear camera
+    });
+    video.srcObject = stream;
+  } catch (error) {
+    alert('Error accessing camera: ' + error.message);
+  }
+});
+
+// Stop Camera
+stopButton.addEventListener('click', () => {
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    video.srcObject = null;
+  }
+});
+</script>
+
+<button id="captureButton">Capture Photo</button>
+
+<script>
+    const canvas = document.getElementById('canvas');
+const captureButton = document.getElementById('captureButton');
+
+captureButton.addEventListener('click', () => {
+  const context = canvas.getContext('2d');
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  // Convert canvas to image URL
+  const imageData = canvas.toDataURL('image/png');
+  console.log(imageData); // Do something with the image
+});
+</script>

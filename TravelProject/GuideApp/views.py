@@ -23,3 +23,31 @@ def guide_dashboard(request):
         "registrations": registrations,
         "guide": guide
     })
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+def ScanQR(request):
+    return render(request, "GuideApp/ScanQR.html")
+
+def process_qr(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            qr_data = data.get("qr_data", "")
+
+            # Split the scanned QR data to get user_id and SecretKey
+            data_parts = qr_data.split('|')
+            user_id = data_parts[0]
+            secret_key = data_parts[1]
+
+            return JsonResponse({"message": f"User ID: {user_id}, Secret Key: {secret_key}"})
+        
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)

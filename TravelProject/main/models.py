@@ -31,6 +31,7 @@ class Registration(models.Model):
     email = models.EmailField()
     id_number = models.CharField(max_length=20)
     attended = models.BooleanField(default=False) 
+    SecretKey = models.CharField(max_length=12,null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

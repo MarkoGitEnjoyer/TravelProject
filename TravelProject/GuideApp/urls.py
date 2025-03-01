@@ -9,6 +9,8 @@ app_name = "GuideApp"
 
 urlpatterns = [
     path("guide_dashboard/", guide_dashboard, name="guide_dashboard"),
+    path('ScanQR/',views.ScanQR,name="ScanQR"),
+    path('process_qr/', views.process_qr, name='process_qr'),
 ]
 
 
