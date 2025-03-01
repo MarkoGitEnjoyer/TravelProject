@@ -127,6 +127,19 @@ USE_TZ = True
 
 STATIC_URL = "main/static/"
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
 LOGIN_URL = '/login/'   
 LOGOUT_REDIRECT_URL = 'login'
 # Default primary key field type
@@ -150,4 +163,5 @@ AUTH_USER_MODEL = 'GuideApp.CustomUser'
 STATICFILES_DIRS = [
     BASE_DIR / "main/static",
     BASE_DIR / "GuideApp/static",
+    
 ]
