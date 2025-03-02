@@ -197,7 +197,7 @@ def admin_login(request):
             if user.is_superuser:
                 return redirect("/trip_list/")
             elif hasattr(user, "guide"):
-                return redirect(f"/guide/trip_attendance/{user.id}")
+                return redirect(f"/guide/trip_attendance/")
             else:
                 return redirect("login")
         else:

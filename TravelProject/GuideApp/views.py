@@ -45,16 +45,16 @@ def ScanQR(request,trip_id):
 
 @csrf_exempt
 @login_required
-def trip_attendance(request, guide_id):
+def trip_attendance(request):
     
     # Get the guide
-    guide = Guide.objects.get(id=guide_id)
+    guide = request.user.guide  
     
     # Get the trip associated with the guide
-    trip = guide.trip # Fetch the first (and only) trip for the guide
+    trip = guide.trip # This will be None if no trip is assigned
     
     # If no trip exists for the guide, handle it gracefully
-    if not trip:
+    if trip is None:
         return render(request, 'GuideApp/trip_attendance.html', {
             'guide': guide,
             'registrations': [],

@@ -11,7 +11,7 @@ urlpatterns = [
     path("guide_dashboard/", guide_dashboard, name="guide_dashboard"),
     path('ScanQR/<int:trip_id>/',views.ScanQR,name="ScanQR"),
     path('process_qr/<int:trip_id>/', views.process_qr, name='process_qr'),
-    path('trip_attendance/<int:guide_id>', views.trip_attendance, name='trip_attendance'),
+    path('trip_attendance/', views.trip_attendance, name='trip_attendance'),
     
     
 ]
