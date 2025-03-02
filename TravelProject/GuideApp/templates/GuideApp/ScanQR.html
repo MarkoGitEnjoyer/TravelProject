@@ -79,37 +79,12 @@
         <button id="startButton">
             <i class="fas fa-camera"></i> Camera
         </button>
-        <button id="captureButton">
-            <i class="fas fa-qrcode"></i> Scan QR
-        </button>
     </div>
     
     <canvas id="previewCanvas" style="display: none;"></canvas>
     
     <script>
-        // Update camera status indicator when camera is started/stopped
-        document.addEventListener('DOMContentLoaded', function() {
-            const startButton = document.getElementById('startButton');
-            const statusIndicator = document.querySelector('.camera-status');
-            const statusText = document.querySelector('.status-text');
-            
-            if (startButton && statusIndicator && statusText) {
-                startButton.addEventListener('click', function() {
-                    // Let the existing qr-scanner.js handle the actual camera logic
-                    // This just updates the UI to show camera status
-                    setTimeout(() => {
-                        const isVideoPlaying = !document.getElementById('video').paused;
-                        if (isVideoPlaying) {
-                            statusIndicator.parentElement.classList.add('status-active');
-                            statusText.textContent = 'Camera on';
-                        } else {
-                            statusIndicator.parentElement.classList.remove('status-active');
-                            statusText.textContent = 'Camera off';
-                        }
-                    }, 500);
-                });
-            }
-        });
+        
     </script>
 </body>
 </html>

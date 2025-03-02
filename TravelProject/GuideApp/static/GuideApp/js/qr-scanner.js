@@ -8,15 +8,18 @@ const secretKeySpan = document.getElementById('secretKeyResult');
 const statusIndicator = document.querySelector('.status-indicator');
 const statusText = document.querySelector('.status-text');
 let stream;
+let scanning = false;
+let scanInterval;
 
 // Update camera status function
 function updateCameraStatus(isActive) {
     if (isActive) {
         statusIndicator.parentElement.classList.add('status-active');
-        statusText.textContent = 'Camera on';
+        statusText.textContent = 'Camera on - Auto-scanning';
     } else {
         statusIndicator.parentElement.classList.remove('status-active');
         statusText.textContent = 'Camera off';
+        stopScanning();
     }
 }
 
@@ -41,25 +44,51 @@ document.getElementById('startButton').addEventListener('click', async () => {
         // Update the status when camera successfully starts
         updateCameraStatus(true);
         
+        // Start automatic scanning
+        startScanning();
+        
     } catch (error) {
         alert('Camera error: ' + error.message);
         updateCameraStatus(false);
     }
 });
 
-// QR Scanning
+// Keep the capture button as a fallback
 document.getElementById('captureButton').addEventListener('click', () => {
     if (!stream) {
         alert('Please start the camera first!');
         return;
     }
+    scanQRCode();
+});
+
+// Start automatic scanning
+function startScanning() {
+    if (scanning) return;
+    scanning = true;
     
+    // Scan every 500ms
+    scanInterval = setInterval(() => {
+        if (stream && video.readyState === video.HAVE_ENOUGH_DATA) {
+            scanQRCode();
+        }
+    }, 500);
+}
+
+// Stop automatic scanning
+function stopScanning() {
+    scanning = false;
+    clearInterval(scanInterval);
+}
+
+// Scan QR code function (separated for reuse)
+function scanQRCode() {
     // Set canvas dimensions to match video
     previewCanvas.width = video.videoWidth;
     previewCanvas.height = video.videoHeight;
     
     if (previewCanvas.width === 0 || previewCanvas.height === 0) {
-        alert('Video dimensions are not ready yet. Please try again in a moment.');
+        console.log('Video dimensions are not ready yet. Will try again.');
         return;
     }
     
@@ -77,7 +106,14 @@ document.getElementById('captureButton').addEventListener('click', () => {
         
         if (code) {
             // QR code found!
+            // Temporarily pause scanning to avoid multiple scans of the same code
+            stopScanning();
             handleQRSuccess(code.data);
+            
+            // Resume scanning after 3 seconds
+            setTimeout(() => {
+                if (stream) startScanning();
+            }, 3000);
             return;
         }
         
@@ -95,7 +131,14 @@ document.getElementById('captureButton').addEventListener('click', () => {
                 const rotatedCode = jsQR(rotatedData.data, rotatedData.width, rotatedData.height);
                 
                 if (rotatedCode) {
+                    // Temporarily pause scanning to avoid multiple scans
+                    stopScanning();
                     handleQRSuccess(rotatedCode.data);
+                    
+                    // Resume scanning after 3 seconds
+                    setTimeout(() => {
+                        if (stream) startScanning();
+                    }, 3000);
                     return;
                 }
             } catch (error) {
@@ -103,13 +146,10 @@ document.getElementById('captureButton').addEventListener('click', () => {
             }
         }
         
-        // If we got here, no QR code was found
-        alert('No QR code detected. Please try again with better lighting or positioning.');
-        
     } catch (error) {
-        alert('Error processing image: ' + error.message);
+        console.error('Error processing image: ' + error.message);
     }
-});
+}
 
 // Properly implemented rotation function
 function rotateImageData(imageData, degrees) {
@@ -156,6 +196,12 @@ function handleQRSuccess(data) {
     resultContainer.style.display = 'block';
     const tripId = document.getElementById('qr-data').getAttribute('data-trip-id');
     console.log('[DEBUG] Sending QR data:', data);
+    
+    // Add visual feedback
+    document.querySelector('.scan-target').classList.add('success-scan');
+    setTimeout(() => {
+        document.querySelector('.scan-target').classList.remove('success-scan');
+    }, 1000);
     
     fetch(`/guide/process_qr/${tripId}/`, {
         method: 'POST',
@@ -206,4 +252,47 @@ function getCookie(name) {
 document.addEventListener('DOMContentLoaded', function() {
     // Set initial camera status
     updateCameraStatus(false);
+    
+    // Add success-scan CSS class if it doesn't exist
+    if (!document.querySelector('style.scan-success-style')) {
+        const style = document.createElement('style');
+        style.className = 'scan-success-style';
+        style.textContent = `
+            .success-scan {
+                border-color: #4CAF50 !important;
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.8) !important;
+                animation: pulse 1s;
+            }
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Update camera status indicator when camera is started/stopped
+    document.addEventListener('DOMContentLoaded', function() {
+        const startButton = document.getElementById('startButton');
+        const statusIndicator = document.querySelector('.camera-status');
+        const statusText = document.querySelector('.status-text');
+        
+        if (startButton && statusIndicator && statusText) {
+            startButton.addEventListener('click', function() {
+                // Let the existing qr-scanner.js handle the actual camera logic
+                // This just updates the UI to show camera status
+                setTimeout(() => {
+                    const isVideoPlaying = !document.getElementById('video').paused;
+                    if (isVideoPlaying) {
+                        statusIndicator.parentElement.classList.add('status-active');
+                        statusText.textContent = 'Camera on';
+                    } else {
+                        statusIndicator.parentElement.classList.remove('status-active');
+                        statusText.textContent = 'Camera off';
+                    }
+                }, 500);
+            });
+        }
+    });
 });
