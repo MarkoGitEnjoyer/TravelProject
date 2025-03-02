@@ -80,6 +80,13 @@ header p {
     overflow: hidden;
     width: 100%;
     aspect-ratio: 3/4;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 #video {
@@ -101,49 +108,51 @@ header p {
     justify-content: center;
     align-items: center;
     pointer-events: none;
+    z-index: 10;
 }
 
 .scan-target {
-    width: 70%;
-    height: 70%;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.3);
+    width: 200px;
+    height: 200px;
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.4);
 }
 
 .scan-corners {
     position: absolute;
     width: 20px;
     height: 20px;
-    border-color: var(--success-color);
+    border-color: #00ff00;
     border-style: solid;
     border-width: 0;
 }
 
 .top-left {
-    top: 15%;
-    left: 15%;
+    top: -2px;
+    left: -2px;
     border-top-width: 3px;
     border-left-width: 3px;
 }
 
 .top-right {
-    top: 15%;
-    right: 15%;
+    top: -2px;
+    right: -2px;
     border-top-width: 3px;
     border-right-width: 3px;
 }
 
 .bottom-left {
-    bottom: 15%;
-    left: 15%;
+    bottom: -2px;
+    left: -2px;
     border-bottom-width: 3px;
     border-left-width: 3px;
 }
 
 .bottom-right {
-    bottom: 15%;
-    right: 15%;
+    bottom: -2px;
+    right: -2px;
     border-bottom-width: 3px;
     border-right-width: 3px;
 }
@@ -368,4 +377,14 @@ footer {
         font-size: 12px;
         padding: 10px 0;
     }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.4); }
+    50% { box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.5); }
+    100% { box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.4); }
+}
+
+.scan-target {
+    animation: pulse 2s infinite ease-in-out;
 }
