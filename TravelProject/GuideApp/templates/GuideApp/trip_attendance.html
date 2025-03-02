@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact List</title>
+    <link rel="stylesheet" href="{% static 'GuideApp/css/Attendence.css' %} " >
+</head>
+<body>
+    <div class="container">
+        <div class="top-buttons">
+            <button class="blue-button" style="background-color: #1e5b5e;">
+                <span class="icon">📱</span>
+
+                <a href="{% url 'GuideApp:ScanQR' trip.trip_id %}">סרוק ברקוד</a>
+            </button>
+        </div>
+
+        <div class="contact-list">
+            {% for registration in registrations %}
+            <tr>
+                <div class="contact-item contact-selected">
+                    <div class="phone-icon">📞</div>
+                    <div class="contact-name" style="text-align: center;"> {{ registration.first_name }} {{ registration.last_name }}</div>
+                    {% if registration.attended%}
+                    <div class="checkmark" "></div>
+                    {% endif %}
+                </div>
+            </tr>
+            {% endfor %}
+
+            
+
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="green-button">
+                <span class="icon">💾</span>
+                שמור קובץ
+            </button>
+        </div>
+        
+        <div class="bottom-buttons">
+            <button class="dark-green-button">
+                <span class="icon">✉️</span>
+                שלח דוח למייל
+            </button>
+        </div>
+    </div>
+
+  
+</body>
+</html>

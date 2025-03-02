@@ -17,7 +17,8 @@
     <button id="startButton">Start Camera</button>
     <button id="captureButton">Scan QR Code</button>
     <canvas id="previewCanvas" style="display: none;"></canvas>
-    
+    <p>{{ trip.trip_id}}</p>
+    <div id="qr-data" data-trip-id="{{ trip.trip_id }}"></div>
     <div id="resultContainer" style="margin-top: 300px;display: none;">
         <h3>Scan Results:</h3>
         <div id="successMessage" style="color: green;"></div>

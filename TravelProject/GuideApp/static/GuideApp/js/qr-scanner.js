@@ -121,6 +121,7 @@ function rotateImageData(imageData, degrees) {
     // Return the rotated image data
     return destCtx.getImageData(0, 0, destCanvas.width, destCanvas.height);
 }
+const tripId = document.getElementById('qr-data').getAttribute('data-trip-id');
 
 // Handle successful scan
 function handleQRSuccess(data) {
@@ -128,10 +129,10 @@ function handleQRSuccess(data) {
     successDiv.textContent = '';
     errorDiv.textContent = '';
     resultContainer.style.display = 'block';
-
+    const tripId = document.getElementById('qr-data').getAttribute('data-trip-id');
     console.log('[DEBUG] Sending QR data:', data);
     
-    fetch('/guide/process_qr/', {
+    fetch(`/guide/process_qr/${tripId}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
