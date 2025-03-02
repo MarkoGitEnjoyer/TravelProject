@@ -1,5 +1,3 @@
-
-
 const video = document.getElementById('video');
 const previewCanvas = document.getElementById('previewCanvas');
 const resultContainer = document.getElementById('resultContainer');
@@ -7,17 +5,45 @@ const successDiv = document.getElementById('successMessage');
 const errorDiv = document.getElementById('errorMessage');
 const userIdSpan = document.getElementById('userIdResult');
 const secretKeySpan = document.getElementById('secretKeyResult');
+const statusIndicator = document.querySelector('.status-indicator');
+const statusText = document.querySelector('.status-text');
 let stream;
+
+// Update camera status function
+function updateCameraStatus(isActive) {
+    if (isActive) {
+        statusIndicator.parentElement.classList.add('status-active');
+        statusText.textContent = 'Camera on';
+    } else {
+        statusIndicator.parentElement.classList.remove('status-active');
+        statusText.textContent = 'Camera off';
+    }
+}
 
 // Start Camera
 document.getElementById('startButton').addEventListener('click', async () => {
+    // If camera is already running, stop it
+    if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        video.srcObject = null;
+        stream = null;
+        updateCameraStatus(false);
+        return;
+    }
+    
     try {
         stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: 'environment' }
         });
         video.srcObject = stream;
+        
+        // Update the status when camera successfully starts
+        updateCameraStatus(true);
+        
     } catch (error) {
         alert('Camera error: ' + error.message);
+        updateCameraStatus(false);
     }
 });
 
@@ -121,7 +147,6 @@ function rotateImageData(imageData, degrees) {
     // Return the rotated image data
     return destCtx.getImageData(0, 0, destCanvas.width, destCanvas.height);
 }
-const tripId = document.getElementById('qr-data').getAttribute('data-trip-id');
 
 // Handle successful scan
 function handleQRSuccess(data) {
@@ -176,3 +201,9 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+// Initialize camera status on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial camera status
+    updateCameraStatus(false);
+});

@@ -1,30 +1,115 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>QR Scanner</title>
     <!-- Include the jsQR library -->
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Include your custom JavaScript -->
-    <script src="{% static 'GuideApp/js/qr-scanner.js' %} " defer></script>
-    <style>
-        /* Your CSS styles here */
-    </style>
+    <script src="{% static 'GuideApp/js/qr-scanner.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'GuideApp/css/scanner.css' %} " >
+
 </head>
 <body>
     {% csrf_token %}
-    <video id="video" autoplay playsinline muted></video>
-    <button id="startButton">Start Camera</button>
-    <button id="captureButton">Scan QR Code</button>
-    <canvas id="previewCanvas" style="display: none;"></canvas>
-    <p>{{ trip.trip_id}}</p>
-    <div id="qr-data" data-trip-id="{{ trip.trip_id }}"></div>
-    <div id="resultContainer" style="margin-top: 300px;display: none;">
-        <h3>Scan Results:</h3>
-        <div id="successMessage" style="color: green;"></div>
-        <div id="errorMessage" style="color: red;"></div>
-        <p>User ID: <span id="userIdResult"></span></p>
-        <p>Secret Key: <span id="secretKeyResult"></span></p>
+    
+    <div class="orientation-message">
+        <div>
+            <i class="fas fa-mobile-alt" style="font-size: 48px; margin-bottom: 20px;"></i>
+            <h2>Please rotate your device</h2>
+            <p>This application works best in portrait mode</p>
+        </div>
     </div>
+    
+    <div class="container">
+        <header>
+            <h1>Trip Attendance Scanner</h1>
+            <p>Scan attendee QR codes</p>
+        </header>
+        
+        <div class="trip-info">
+            <h2>Trip <strong>{{ trip.name }}</strong></h2>
+            <div id="qr-data" data-trip-id="{{ trip.trip_id }}"></div>
+        </div>
+        
+        <div class="scanner-container">
+            <video id="video" autoplay playsinline muted></video>
+            <div class="scan-overlay">
+                <div class="scan-target"></div>
+                <div class="scan-corners top-left"></div>
+                <div class="scan-corners top-right"></div>
+                <div class="scan-corners bottom-left"></div>
+                <div class="scan-corners bottom-right"></div>
+            </div>
+            <div class="camera-status">
+                <span class="status-indicator"></span>
+                <span class="status-text">Camera off</span>
+            </div>
+        </div>
+        
+        <div id="resultContainer" style="display: none;">
+            <h3><i class="fas fa-clipboard-check"></i> Scan Results</h3>
+            
+            <div id="successMessage"></div>
+            <div id="errorMessage"></div>
+            
+            <div class="result-item">
+                <strong>User ID:</strong>
+                <span id="userIdResult" class="result-value">-</span>
+            </div>
+            
+            <div class="result-item">
+                <strong>Secret Key:</strong>
+                <span id="secretKeyResult" class="result-value">-</span>
+            </div>
+        </div>
+        
+        <div class="bottom-padding"></div>
+        
+        <footer>
+            &copy; 2025 GuideApp
+        </footer>
+    </div>
+    
+    <div class="fixed-buttons">
+        <button id="startButton">
+            <i class="fas fa-camera"></i> Camera
+        </button>
+        <button id="captureButton">
+            <i class="fas fa-qrcode"></i> Scan QR
+        </button>
+    </div>
+    
+    <canvas id="previewCanvas" style="display: none;"></canvas>
+    
+    <script>
+        // Update camera status indicator when camera is started/stopped
+        document.addEventListener('DOMContentLoaded', function() {
+            const startButton = document.getElementById('startButton');
+            const statusIndicator = document.querySelector('.camera-status');
+            const statusText = document.querySelector('.status-text');
+            
+            if (startButton && statusIndicator && statusText) {
+                startButton.addEventListener('click', function() {
+                    // Let the existing qr-scanner.js handle the actual camera logic
+                    // This just updates the UI to show camera status
+                    setTimeout(() => {
+                        const isVideoPlaying = !document.getElementById('video').paused;
+                        if (isVideoPlaying) {
+                            statusIndicator.parentElement.classList.add('status-active');
+                            statusText.textContent = 'Camera on';
+                        } else {
+                            statusIndicator.parentElement.classList.remove('status-active');
+                            statusText.textContent = 'Camera off';
+                        }
+                    }, 500);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
