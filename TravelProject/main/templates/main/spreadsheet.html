@@ -19,8 +19,8 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th> Passport ID</th>
-               <th>Trip Name</th>
+                    <th>Notes</th>
+                    <th>Trip Name</th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
@@ -43,10 +43,10 @@
                             <input type="text" name="phone" value="{{ registration.phone }}" class="form-control form-control-sm">
                         </td>
                         <td>
-                            <input type="text" name="Passport_id" value="{{ registration.id_number }}" class="form-control form-control-sm">
+                            <textarea name="notes" class="form-control form-control-sm" rows="2">{{ registration.notes }}</textarea>
                         </td>
                         <td>
-                            <input  type="text" readonly name="Trip_Name" value="{{ registration.trip.name }}" class="form-control form-control-sm">
+                            <input type="text" readonly name="Trip_Name" value="{{ registration.trip.name }}" class="form-control form-control-sm">
                         </td>
                         <td>
                             <button type="submit" class="btn btn-success btn-sm me-1">Update</button>
@@ -58,7 +58,6 @@
                         <td>
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </td>
-                        
                     </form>
                 </tr>
                 {% endfor %}

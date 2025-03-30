@@ -20,8 +20,40 @@ Trip Information
                 <li class="list-group-item"><strong>Time:</strong> {{ trip.time }}</li>
                 <li class="list-group-item"><strong>Meeting Point:</strong> {{ trip.meeting_point }}</li>
                 <li class="list-group-item"><strong>Cost per Ticket:</strong> ${{ trip.cost }}</li>
+                
+                {% if trip.equipment_needed %}
+                <li class="list-group-item">
+                    <strong>Equipment Needed:</strong>
+                    <div class="mt-2">{{ trip.equipment_needed|linebreaks }}</div>
+                </li>
+                {% endif %}
             </ul>
-            <form action="{% url 'registration' trip.trip_id %}" method="get" class="mt-4">
+            
+            <div class="mt-3 mb-4">
+                <div class="btn-group w-100" role="group">
+                    {% if trip.meeting_point_coordinates %}
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ trip.meeting_point_coordinates }}" 
+                       target="_blank" class="btn btn-info">
+                        <i class="bi bi-geo-alt-fill"></i> Google Maps
+                    </a>
+                    <a href="https://waze.com/ul?ll={{ trip.meeting_point_coordinates }}&navigate=yes" 
+                       target="_blank" class="btn btn-success">
+                        <i class="bi bi-cursor-fill"></i> Waze
+                    </a>
+                    {% else %}
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ trip.meeting_point|urlencode }}" 
+                       target="_blank" class="btn btn-info">
+                        <i class="bi bi-geo-alt-fill"></i> Google Maps
+                    </a>
+                    <a href="https://waze.com/ul?q={{ trip.meeting_point|urlencode }}&navigate=yes" 
+                       target="_blank" class="btn btn-success">
+                        <i class="bi bi-cursor-fill"></i> Waze
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <form action="{% url 'registration' trip.trip_id %}" method="get" class="mt-3">
                 <div class="mb-3">
                     <label for="tickets" class="form-label"><strong>Number of Tickets:</strong></label>
                     <input type="number" id="tickets" name="tickets" class="form-control" min="1" value="1" required>

@@ -27,8 +27,7 @@ def update_registration(request, id):
         registration.last_name = request.POST['last_name']
         registration.email = request.POST['email']
         registration.phone = request.POST['phone']
-        registration.id_number = request.POST['id_number']
-        registration.trip.name = request.POST['trip_name']
+        registration.notes = request.POST['notes']  # Changed from id_number to notes
         registration.save()
         return redirect('spreadsheet')  
     return HttpResponseRedirect('/')
@@ -61,7 +60,7 @@ def dehash_number(hashed_value):
 
 
 
-def send_custom_email(request, recipient_email, first_name, last_name, trip_name, message_string, user_id, SecretKey):
+def send_custom_email(request, recipient_email, first_name, last_name, trip_name, message_string, user_phone, SecretKey):
     """
     Sends a custom email with trip details, QR code, and personalized name.
 
@@ -72,7 +71,7 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
         last_name (str): Recipient's last name.
         trip_name (str): Name of the trip ordered.
         message_string (str): Additional details or a custom message.
-        user_id (str): Unique identifier for generating the QR code.
+        user_phone (str): Phone number for generating the QR code.
         SecretKey (str): Secret key for generating the QR code.
     """
     import qrcode
@@ -88,7 +87,7 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
         box_size=10,
         border=4,
     )
-    qr.add_data(user_id)
+    qr.add_data(user_phone)  # Use phone instead of id_number
     qr.add_data('|')
     qr.add_data(SecretKey)
     qr.make(fit=True)
@@ -136,8 +135,6 @@ def send_custom_email(request, recipient_email, first_name, last_name, trip_name
         return HttpResponse("Email with QR code sent successfully!")
     except Exception as e:
         return HttpResponse(f"Failed to send email: {e}", status=500)
-
-
         
 
 def trip_info(request, trip_id):
@@ -159,14 +156,13 @@ def Checkout(request, registration_id):
             last_name=registration.last_name,
             trip_name=registration.trip.name,
             message_string=f" for trip {registration.trip.name}",
-            user_id=registration.id_number,
+            user_phone=registration.phone,  # Changed from id_number to phone
             SecretKey=dehash_number(int(registration.SecretKey)),
         )
 
         return redirect(reverse("confirmation", kwargs={"registration_id": registration.id}))
 
     return render(request, "main/Checkout.html", {'registration': registration})
-
 
 def trip_list(request):
     trips = Trip.objects.all() 
@@ -239,11 +235,19 @@ def download_excel(request):
     ws = wb.active
     ws.title = "Registrations"
     
-    ws.append(["#", "First Name", "Last Name", "Email", "Phone","Passport ID", "Trip Name"])
+    ws.append(["#", "First Name", "Last Name", "Email", "Phone", "Notes", "Trip Name"])
     
     registrations = Registration.objects.all()
     for idx, registration in enumerate(registrations, start=1):
-        ws.append([idx, registration.first_name, registration.last_name, registration.email, registration.phone,registration.id_number,registration.trip.name])
+        ws.append([
+            idx, 
+            registration.first_name, 
+            registration.last_name, 
+            registration.email, 
+            registration.phone,
+            registration.notes,  # Changed from id_number to notes
+            registration.trip.name
+        ])
     
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -252,7 +256,6 @@ def download_excel(request):
     
     wb.save(response)
     return response
-
 
 def custom_logout(request):
     logout(request)

@@ -23,7 +23,7 @@ urlpatterns = [
     path('send-email/<str:recipient_email>/<str:message_string>/<str:user_id>/', views.send_custom_email, name='send_custom_email'),
     path("Checkout/", views.Checkout,name="Checkout"),
     path(
-    'send-email/<str:recipient_email>/<str:first_name>/<str:last_name>/<str:trip_name>/<str:message_string>/<str:user_id>/<int:secret_key>',
+    'send-email/<str:recipient_email>/<str:first_name>/<str:last_name>/<str:trip_name>/<str:message_string>/<str:user_phone>/<int:secret_key>',
     views.send_custom_email,
     name='send_custom_email'
 ),

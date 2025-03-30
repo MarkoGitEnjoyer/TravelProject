@@ -9,13 +9,15 @@ from GuideApp.models import Guide
 class Trip(models.Model):
     trip_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    minimizedDescription = models.TextField(null = True)
+    minimizedDescription = models.TextField(null=True)
     description = models.TextField()
     image = models.ImageField(upload_to='trip_images/') 
     date = models.DateField()
     time = models.TimeField()
     meeting_point = models.CharField(max_length=200)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
+    equipment_needed = models.TextField(null=True, blank=True)  # New field for equipment needed
+    meeting_point_coordinates = models.CharField(max_length=100, null=True, blank=True)  # New field for coordinates
 
     def __str__(self):
         return self.name
@@ -29,7 +31,7 @@ class Registration(models.Model):
         validators=[RegexValidator(regex='^[0-9]*$', message='Phone number must be numeric')]
     )    
     email = models.EmailField()
-    id_number = models.CharField(max_length=20)
+    notes = models.TextField(blank=True, null=True)  # New notes field replacing id_number
     attended = models.BooleanField(default=False) 
     SecretKey = models.CharField(max_length=12,null=True)
 
