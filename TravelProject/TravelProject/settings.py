@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure--m3b&-u=$h=8$!7)adum^=w=9(9d!1ns1k(o3i==k4bstxorc(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['13.49.178.87']
 
 # Application definition
 
@@ -157,7 +157,7 @@ DEFAULT_FROM_EMAIL = 'Mr.G <in-v3.mailjet.com>'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'GuideApp.CustomUser'  
 
 STATICFILES_DIRS = [
