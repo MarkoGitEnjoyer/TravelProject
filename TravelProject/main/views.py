@@ -14,7 +14,11 @@ import openpyxl
 import qrcode
 import logging
 import random
+from .utils.vonage_sms import VonageSMSService
+from django.conf import settings
 from GuideApp.models import Guide
+from vonage import Auth, Vonage
+from vonage_sms import SmsMessage, SmsResponse
 
 
 
@@ -145,10 +149,21 @@ def home(request):
     trips = Trip.objects.all() 
     return render(request, "main/trip_list.html",{"trips": trips})
 
+
 def Checkout(request, registration_id):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == "POST":
 
+        from .utils.vonage_sms import send_trip_confirmation
+        
+        # Try to send SMS (the function will handle errors internally)
+        sms_result = send_trip_confirmation(registration)
+        
+        # Log result for debugging
+        if sms_result.get("success"):
+            print(f"SMS sent successfully with message ID: {sms_result.get('message_id')}")
+        else:
+            print(f"SMS sending failed: {sms_result.get('error')}")
         send_custom_email(
             request,
             recipient_email=registration.email,
@@ -159,6 +174,13 @@ def Checkout(request, registration_id):
             user_phone=registration.phone,  # Changed from id_number to phone
             SecretKey=dehash_number(int(registration.SecretKey)),
         )
+
+        
+
+        if sms_result.get('success'):
+            logger.info(f"SMS confirmation sent to {registration.phone}")
+        else:
+            logger.error(f"SMS failed: {sms_result.get('error')}")
 
         return redirect(reverse("confirmation", kwargs={"registration_id": registration.id}))
 

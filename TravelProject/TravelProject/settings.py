@@ -157,6 +157,11 @@ EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
+
+VONAGE_API_KEY=os.getenv("VONAGE_API_KEY")
+VONAGE_API_SECRET=os.getenv("VONAGE_API_SECRET")
+VONAGE_SENDER_ID = "MEITAV"
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

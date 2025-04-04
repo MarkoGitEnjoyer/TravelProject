@@ -1,16 +1,153 @@
-{% extends 'main/mainlayout.html' %}
-
-{% block title %}
-Register
-{% endblock %}
-
+{% extends 'main/mainlayout.html' %} {% block title %} Register {% endblock %}
 {% block content %}
 <div class="registration-form-container">
-    <h1>Register for a {{trip.name}}</h1>
-    <form method="POST" class="registration-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-submit">Submit</button>
-    </form>
+  <h1>Register for {{ trip.name }}</h1>
+  <form method="POST" class="registration-form">
+    {% csrf_token %}
+
+    <div>
+      <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+      {{ form.first_name }} {% if form.first_name.errors %}
+      <div class="error-message">{{ form.first_name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+      {{ form.last_name }} {% if form.last_name.errors %}
+      <div class="error-message">{{ form.last_name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="{{ form.email.id_for_label }}">Email:</label>
+      {{ form.email }} {% if form.email.errors %}
+      <div class="error-message">{{ form.email.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label>Phone:</label>
+      <div class="phone-input-container">
+        {{ form.country_code }} {{ form.phone_number }}
+      </div>
+      {% if form.phone_number.errors %}
+      <div class="error-message">{{ form.phone_number.errors }}</div>
+      {% endif %} {% if form.country_code.errors %}
+      <div class="error-message">{{ form.country_code.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="{{ form.notes.id_for_label }}">Notes:</label>
+      {{ form.notes }} {% if form.notes.errors %}
+      <div class="error-message">{{ form.notes.errors }}</div>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="btn-submit">Submit</button>
+  </form>
 </div>
+
+<style>
+  .registration-form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .registration-form-container h1 {
+    font-size: 1.5rem;
+    color: #004080;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Reduced from what appears to be a much larger gap */
+    text-align: left;
+  }
+
+  .form-group {
+    margin-bottom: 0; /* Reset any default margins */
+    padding-bottom: 0;
+  }
+
+  .form-group label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    padding-left: 0;
+    margin-left: 0;
+    font-size: 1rem;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+  /* Ensure notes textarea uses 100% width */
+  .form-group textarea[name="notes"] {
+    min-height: 10px;
+    resize: vertical;
+    width: 100%;
+  }
+
+  .phone-input-container {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .phone-input-container select {
+    flex: 1 1 120px;
+  }
+
+  .phone-input-container input {
+    flex: 2 1 auto;
+  }
+
+  .error-message {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 5px;
+    text-align: left;
+  }
+
+  /* Button styling */
+  .btn-submit {
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #004080;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px; /* Reduced margin above button */
+    transition: background-color 0.3s ease;
+    align-self: center; /* Center the button */
+    width: auto;
+  }
+
+  .btn-submit:hover {
+    background-color: #0059b3;
+  }
+</style>
+
 {% endblock %}
