@@ -1,12 +1,40 @@
 {% extends 'main/mainlayout.html' %}
+{% load static %}
 
-{% block title %}
-Confirmation
-{% endblock %}
+{% block title %}Booking Confirmed!{% endblock %}
 
 {% block content %}
-<div class="confirmation-container">
-    <h1>Thank You for Registering!</h1>
-    <p>Thank you, <strong>{{ registration.first_name }} {{ registration.last_name }}</strong>! Your registration is confirmed.</p>
-</div>
+<section class="confirmation-section">
+    <div class="container">
+        <div class="confirmation-box">
+
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+
+            <h2>Thank You! Your Booking is Confirmed.</h2>
+
+            <p class="confirmation-message">
+                Your adventure awaits! A confirmation email with your booking details has been sent to
+                <strong>{{ booking.email }}</strong>.
+            </p>
+
+            {# Optional: Display key booking details #}
+            <div class="booking-summary-confirmation">
+                <h3>Booking Summary</h3>
+                <p><strong>Booking Reference:</strong> #{{ registration.id }}</p>
+                <p><strong>Trip:</strong> {{ registration.trip.name }}</p>
+                <p><strong>Date:</strong> {{ registration.trip.date }}</p>
+                <p><strong>Travelers:</strong> {1}</p>
+                <p><strong>Total Amount Paid:</strong> ${{ registration.trip.cost }}</p>
+            </div>
+
+            <div class="confirmation-actions">
+                {# Link to home page #}
+                <a href="{% url 'trip_list' %}" class="cta-button">Back to Home</a>
+            </div>
+
+        </div> {# End confirmation-box #}
+    </div> {# End container #}
+</section>
 {% endblock %}

@@ -1,464 +1,1491 @@
+/* === styles.css === */
+/* Final Consolidated Styles for TripExplorer */
+
+/* --- General Styles --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column; 
-    min-height: 100vh; 
-    overflow-x: hidden; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
 }
 
-
-
-
-.about {
-    text-align: center;
-    padding: 40px 20px;
-    background-color: #e6f7ff; 
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: auto;
-    max-width: 800px;
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.about h1 {
-    font-size: 2.5rem;
-    color: #004080; 
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-weight: bold;
+a {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.3s ease;
 }
 
-.about p {
-    font-size: 1.2rem;
-    color: #333;
-    line-height: 1.6;
+a:hover {
+  color: #0056b3;
 }
 
-@media screen and (max-width: 768px) {
-    .about {
-        padding: 20px 10px;
-    }
-
-    .about h1 {
-        font-size: 2rem;
-    }
-
-    .about p {
-        font-size: 1rem;
-    }
+ul {
+  list-style: none;
 }
 
-.main-container {
-    background-color: #f9f9f9; 
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-    
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.container h1 {
-    color: #004080; 
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    font-weight: bold;
-    
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
 }
-
-
-.card {
-    border: none; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.2s, box-shadow 0.2s;
-    overflow: hidden; 
-    height:max-content;
-}
-
-.card:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
-}
-
-.card-img-top {
-    width: 100%;
-    height: 200px;
-    object-fit: cover; 
-    border-bottom: 3px solid #004080;
-}
-
-.card-title {
-    font-size: 1.5rem;
-    color: #004080; 
-    font-weight: bold;
-}
-
-.card-text {
-    font-size: 1rem;
-    color: #555; 
-    margin-bottom: 15px;
-}
-
-.card ul {
-    padding: 0;
-    list-style: none;
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-.card ul li {
-    margin-bottom: 5px;
-}
-
-.card .btn {
-    background-color: #004080;
-    border: none;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.card .btn:hover {
-    background-color: #0059b3; 
-}
-
-@media screen and (max-width: 768px) {
-    .card-img-top {
-        height: 150px; 
-    }
-
-    .card-title {
-        font-size: 1.3rem;
-    }
-
-    .card-text, .card ul {
-        font-size: 0.8rem;
-    }
-}
-
-
-.registration-form-container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #f9f9f9; 
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.registration-form-container h1 {
-    font-size: 1.5rem;
-    color: #004080; 
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.registration-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; 
-}
-
-.registration-form input, 
-.registration-form select, 
-.registration-form textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.registration-form input:focus, 
-.registration-form select:focus, 
-.registration-form textarea:focus {
-    border-color: #004080; 
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 64, 128, 0.5);
-}
-
-.btn-submit {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #004080; 
-    border: none;
-    border-radius: 5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-submit:hover {
-    background-color: #0059b3; 
-}
-
-@media screen and (max-width: 768px) {
-    .registration-form-container {
-        padding: 15px;
-    }
-
-    .registration-form-container h1 {
-        font-size: 1.5rem;
-    }
-
-    .registration-form input, 
-    .registration-form select, 
-    .registration-form textarea {
-        font-size: 0.9rem;
-        padding: 8px;
-    }
-
-    .btn-submit {
-        font-size: 0.9rem;
-        padding: 8px 15px;
-    }
-}
-
-.confirmation-container {
-    padding: 20px;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin: 20px auto;
-    max-width: 800px;
-}
-
-.confirmation-container h1 {
-    font-size: 2.5rem;
-    color: #004080;
-    margin-bottom: 20px;
-}
-
-.confirmation-container p {
-    font-size: 1.2rem;
-    color: #333;
-}
-
-
-
-
-@media screen and (max-width: 768px) {
-    .confirmation-container {
-        padding: 15px;
-        max-width: 100%;
-    }
-
-    .confirmation-container h1 {
-        font-size: 2rem;
-    }
-
-    .confirmation-container p {
-        font-size: 1rem;
-    }
-}
-
-
-footer {
-    background-color: #004080; 
-    color: #fff; 
-    text-align: center; 
-    padding: 10px 20px; 
-    font-size: 0.9rem;
-    position: fixed; 
-    bottom: 0;
-    width: 100%; 
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
-}
-
-
-@media screen and (max-width: 768px) {
-    footer {
-        font-size: 0.8rem; 
-        padding: 8px;
-    }
-}
-
-.navbar-custom {
-    background-color: #004080;
-}
-
-.navbar-custom .nav-link,
-.navbar-custom .navbar-brand {
-    color: white;
-}
-
-.navbar-custom .nav-link:hover {
-    color: #cce6ff; /* Light blue hover effect */
-}
-
 
 h2 {
-    text-align: center;
-    color: #004080;
-    margin-bottom: 20px;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-weight: 600;
 }
 
-form {
-    max-width: 800px;
-    margin: 40px auto;
-    background-color: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 600;
 }
 
-.form-grid {
-    grid-template-columns: 1fr 1fr 1fr; 
-    gap: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 800px; 
-    margin: 0 auto; 
+/* --- Header & Navbar --- */
+.navbar {
+  background-color: #fff;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+}
+.logo:hover {
+  color: #0056b3;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #555;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover {
+  color: #007bff;
+}
+
+.nav-links a.active {
+  color: #007bff;
+  font-weight: 600;
+  border-bottom: 2px solid #007bff;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.login-btn,
+.signup-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.login-btn {
+  background-color: #fff;
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.login-btn:hover {
+  background-color: #f0f7ff;
+}
+
+.signup-btn {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.signup-btn:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* --- Featured Trips Section (Home Page) --- */
+.featured-trips {
+  padding: 3rem 0;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  text-align: left;
+}
+.trip-card {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.trip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.trip-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.trip-card h3 {
+  font-size: 1.2rem;
+  margin: 1rem 1rem 0.5rem 1rem;
+  padding: 0;
+}
+.trip-card p {
+  font-size: 0.9rem;
+  color: #666;
+  flex-grow: 1;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+.learn-more-btn {
+  display: inline-block;
+  margin: 0 1rem 1rem 1rem;
+  padding: 0.7rem 1.5rem;
+  border: 1px solid #007bff;
+  color: #007bff;
+  border-radius: 30px;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.learn-more-btn:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* --- Newsletter Section (Home Page) --- */
+.newsletter {
+  padding: 3rem 0;
+  background-color: #fff;
+  text-align: center;
+}
+.subscribe-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 450px;
+  margin: 0 auto;
+}
+.subscribe-form input[type="email"] {
+  flex-grow: 1;
+  min-width: 200px;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  font-size: 1rem;
+}
+.subscribe-form button {
+  padding: 0.8rem 1.8rem;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+.subscribe-form button:hover {
+  background-color: #0056b3;
+}
+
+/* --- Trip Overview Section (Trip Details Page) --- */
+/* Layout: Image+Desc in Left Column | Details in Right Column */
+.trip-overview {
+  padding: 3rem 0;
+  background-color: #fff;
+}
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 0;
+}
+.overview-left-column {
+} /* Container for image and description */
+.overview-image {
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+.overview-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.trip-description {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: #555;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.overview-details h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+.detail-section {
+  margin-bottom: 1.5rem;
+}
+.overview-details .detail-section:last-child {
+  margin-bottom: 0;
+}
+.detail-section h3 {
+  margin-bottom: 0.8rem;
+  color: #007bff;
+  font-size: 1.3rem;
+}
+.detail-section > p {
+  margin-bottom: 0.6rem;
+  color: #555;
+}
+.detail-section > p strong {
+  color: #333;
+  margin-right: 0.5em;
+}
+.detail-section > p small {
+  color: #777;
+  font-size: 0.85em;
+}
+.itinerary-list,
+.inclusions-list {
+  margin-top: 0.8rem;
+  list-style: disc;
+  padding-left: 20px;
+}
+.itinerary-list li,
+.inclusions-list li {
+  margin-bottom: 0.4rem;
+  color: #555;
+}
+.equipment-needed {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #eee;
+  font-size: 0.95rem;
+  color: #555;
+}
+.equipment-needed strong {
+  color: #333;
+  display: block;
+  margin-bottom: 0.4em;
+}
+.equipment-needed div {
+  line-height: 1.6;
+}
+.navigation-section p {
+  margin-bottom: 1rem;
+  color: #555;
+  font-size: 0.95rem;
+}
+.nav-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.nav-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+  color: #fff;
+  flex-grow: 1;
+  justify-content: center;
+}
+.nav-button i {
+  font-size: 1.1em;
+}
+.google-maps-btn {
+  background-color: #4285f4;
+  border-color: #4285f4;
+}
+.google-maps-btn:hover {
+  background-color: #3578e5;
+  border-color: #3578e5;
+  color: #fff;
+}
+.waze-btn {
+  background-color: #33ccff;
+  border-color: #33ccff;
+}
+.waze-btn:hover {
+  background-color: #29a3cc;
+  border-color: #29a3cc;
+  color: #fff;
+}
+
+/* --- Photo Gallery Section (Trip Details Page) --- */
+.photo-gallery {
+  padding: 3rem 0;
+  background-color: #f8f9fa;
+}
+.photo-gallery h2 {
+  text-align: center;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+.gallery-item {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.gallery-item:hover {
+  transform: scale(1.03);
+}
+.gallery-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.gallery-item p {
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0;
+}
+
+/* --- CTA Section (Trip Details Page) --- */
+.cta-section {
+  background-color: #e9f5ff;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+.cta-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+.cta-section p {
+  margin-bottom: 1.5rem;
+  color: #555;
+  font-size: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-button {
+  display: inline-block;
+  padding: 0.9rem 2.2rem;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.cta-button:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+/* --- Contact Section (Contact Page) --- */
+.contact-section {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  background-color: #fff;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.contact-form-area h2 {
+  text-align: left;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
 .form-group {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 300px;
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
+  margin-bottom: 1.2rem;
 }
-
-.form-group.full-width {
-    flex: 1 1 100%;
-}
-
 .form-group label {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: #555;
-    margin-bottom: 5px;
-    font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+  font-size: 0.9rem;
 }
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    max-width: 100%; /* Prevent input overflow */
-    box-sizing: border-box; 
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    border-color: #004080;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 64, 128, 0.5);
-}
-
-textarea#notes {
-    height: 80px; 
-    width: 150%; 
-    resize: vertical; 
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-textarea {
-    resize: vertical;
-}
-
-.form-group.full-width {
-    grid-column: span 2; /
-}
-
-input[type="checkbox"] {
-    margin-right: 10px;
-    width: 150%; 
-
-}
-
+/* Contact form inputs/textarea rely on consolidated styles below */
 .submit-btn {
-    background-color: #004080;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width:150%;
+  display: inline-block;
+  padding: 0.9rem 2.5rem;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
 }
-
 .submit-btn:hover {
-    background-color: #0059b3;
+  background-color: #0056b3;
+}
+.contact-map-area {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+.contact-map-area img,
+.contact-map-area iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
 }
 
-@media screen and (max-width: 768px) {
-    .form-grid {
-        grid-template-columns: 1fr; 
-    }
+/* --- Consolidated Form Input/Textarea/Select Styles --- */
+/* Apply to text, email, tel, number, select in relevant forms */
+.booking-form .form-group input[type="text"],
+.booking-form .form-group input[type="email"],
+.booking-form .form-group input[type="tel"],
+.booking-form .form-group input[type="number"], /* Apply base style first */
+.booking-form .form-group select,
+.payment-details .form-group input[type="text"],
+.payment-details .form-group input[type="email"],
+.payment-details .form-group input[type="tel"],
+.payment-details .form-group select,
+.contact-section .form-group input[type="text"],
+.contact-section .form-group input[type="email"] {
+  border-radius: 30px; /* Rounded */
+  padding: 0.8rem 1.2rem;
+  width: 100%; /* Full Width */
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #333;
+  background-color: #fff;
+}
 
+/* Apply specific max-width ONLY to booking number input */
+.booking-form .form-group input[type="number"] {
+  max-width: 100px;
+  width: auto; /* Override width: 100% */
+}
+
+/* Consolidated Textarea styles */
+.booking-form .form-group textarea,
+.payment-details .form-group textarea, /* If payment page needs textarea */
+.contact-section .form-group textarea {
+  border-radius: 15px; /* Less rounded */
+  padding: 0.8rem 1.2rem;
+  width: 100%; /* Full Width */
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: vertical;
+  min-height: 120px;
+  color: #333;
+  background-color: #fff;
+}
+
+/* Consolidated Focus styles */
+.booking-form .form-group input:focus,
+.booking-form .form-group select:focus,
+.booking-form .form-group textarea:focus,
+.payment-details .form-group input:focus,
+.payment-details .form-group select:focus,
+.payment-details .form-group textarea:focus,
+.contact-section .form-group input:focus,
+.contact-section .form-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Consolidated Select arrow styling */
+.booking-form .form-group select,
+.payment-details .form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 0.65em auto;
+  padding-right: 2.5rem;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #aaa;
+}
+
+/* --- Booking Page Styles --- */
+.booking-section {
+  padding: 3rem 0;
+  background-color: #f8f9fa;
+}
+.booking-container {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+.booking-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #333;
+}
+.trip-summary {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #e9f5ff;
+  border-radius: 8px;
+  border: 1px solid #cce4ff;
+  text-align: center;
+}
+.trip-summary p {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1rem;
+}
+.trip-summary p:last-child {
+  margin-bottom: 0;
+}
+.trip-summary strong {
+  color: #0056b3;
+}
+.booking-form h3 {
+  font-size: 1.4rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  color: #007bff;
+}
+.estimated-cost {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #555;
+  font-size: 0.9rem;
+}
+.estimated-cost p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+}
+.booking-confirm-btn {
+  /* Inherits base button styles now, just define specifics */
+  border-radius: 30px;
+  padding: 0.9rem 2.5rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  display: block;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+.booking-confirm-btn:hover {
+  background-color: #0056b3;
+}
+
+/* --- Payment Page Styles --- */
+.payment-section {
+  padding: 3rem 0 4rem 0;
+  background-color: #f8f9fa;
+}
+.payment-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+.checkout-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+}
+.payment-details {
+  background-color: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.form-section {
+  margin-bottom: 2rem;
+}
+.form-section:last-of-type {
+  margin-bottom: 1rem;
+}
+.form-section h3 {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+}
+/* Form group/label styles inherited from general */
+/* Input/Select styles inherited from consolidated block */
+.address-row {
+  display: flex;
+  gap: 1rem;
+}
+.address-row .form-group {
+  flex: 1;
+}
+.card-details-row {
+  display: flex;
+  gap: 1rem;
+}
+.card-details-row .form-group.expiry {
+  flex-basis: 60%;
+}
+.card-details-row .form-group.cvc {
+  flex-basis: 40%;
+}
+.card-details-row .form-group input {
+  border-radius: 30px;
+  padding: 0.8rem 1.2rem;
+} /* Ensure consistency if needed */
+.payment-info-text {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 1rem;
+}
+.confirm-order-btn {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 2rem;
+  background-color: #212529;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  margin-top: 1.5rem;
+}
+.confirm-order-btn:hover {
+  background-color: #42464a;
+}
+
+/* Order Summary */
+.order-summary {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+.order-summary h3 {
+  text-align: left;
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 600;
+}
+.summary-details {
+  margin-bottom: 1.5rem;
+}
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+.summary-item span:first-child {
+  margin-right: 1rem;
+}
+.summary-item span:last-child {
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+}
+.summary-item.trip-name span:last-child {
+  font-weight: normal;
+}
+.summary-separator {
+  border: none;
+  border-top: 1px dashed #ced4da;
+  margin: 1.5rem 0;
+}
+/* Coupon Section Styles */
+.coupon-section {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  align-items: stretch;
+}
+.coupon-section .form-group {
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+.coupon-input {
+  border-radius: 30px;
+  padding: 0.7rem 1rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.coupon-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+.apply-coupon-btn {
+  padding: 0.7rem 1rem;
+  border-radius: 30px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+.apply-coupon-btn:hover {
+  background-color: #5a6268;
+}
+.summary-item.coupon-discount span:last-child {
+  color: #28a745;
+  font-weight: bold;
+}
+.sr-only {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
+}
+/* Total */
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}
+.summary-total span:first-child {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #333;
+}
+.summary-total .total-amount {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: #007bff;
+}
+
+/* --- Order Confirmation Page Styles --- */
+.confirmation-section {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+.confirmation-box {
+  max-width: 650px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+.success-icon {
+  font-size: 4rem;
+  color: #28a745;
+  margin-bottom: 1.5rem;
+}
+.confirmation-box h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+.confirmation-message {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.confirmation-message strong {
+  color: #333;
+  font-weight: 600;
+}
+.booking-summary-confirmation {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+.booking-summary-confirmation h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.booking-summary-confirmation p {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+  color: #444;
+}
+.booking-summary-confirmation p strong {
+  display: inline-block;
+  min-width: 150px;
+  color: #0056b3;
+}
+.booking-summary-confirmation p:last-child {
+  margin-bottom: 0;
+}
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.confirmation-actions .cta-button {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 30px;
+}
+.confirmation-actions .secondary-button {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background-color: #6c757d;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+.confirmation-actions .secondary-button:hover {
+  background-color: #5a6268;
+  color: #fff;
+}
+
+/* --- Footer --- */
+footer {
+  background-color: #f8f9fa;
+  padding-top: 3rem;
+  padding-bottom: 1.5rem;
+  color: #555;
+  font-size: 0.9rem;
+  border-top: 1px solid #eee;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+.footer-col h4 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.footer-col ul li {
+  margin-bottom: 0.5rem;
+}
+.footer-col ul li a {
+  color: #555;
+}
+.footer-col ul li a:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+.language-select select {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+.copyright-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.copyright-links span {
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+.copyright-links a {
+  color: #555;
+}
+.copyright-links a:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+.social-icons {
+  display: flex;
+  gap: 1rem;
+}
+.social-icons a {
+  color: #555;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+.social-icons a:hover {
+  color: #007bff;
+}
+
+/* --- Guide Login Page Styles --- */
+
+/* Optional body styles if not extending a base template */
+body.login-page-body {
+  /* Add class to body tag if needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensure takes full viewport height */
+  background-color: #fff; /* White background */
+  padding: 20px;
+}
+
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  /* Optional: Add subtle shadow or border if desired */
+  /* box-shadow: 0 4px 15px rgba(0,0,0,0.08); */
+  /* border: 1px solid #eee; */
+  /* border-radius: 8px; */
+}
+
+.login-container h1 {
+  font-size: 2rem; /* Large title */
+  font-weight: 600;
+  color: #212529; /* Darker heading */
+  margin-bottom: 0.5rem;
+}
+
+.login-container .subtitle {
+  font-size: 1rem;
+  color: #6c757d; /* Grey subtitle */
+  margin-bottom: 2.5rem;
+}
+
+.login-form {
+  text-align: left; /* Align form elements left */
+}
+
+.input-group {
+  position: relative; /* Needed for absolute icon positioning */
+  margin-bottom: 1rem;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #adb5bd; /* Icon color */
+  font-size: 1rem;
+}
+
+.input-group input[type="email"],
+.input-group input[type="password"] {
+  width: 100%;
+  padding: 0.9rem 1rem 0.9rem 2.75rem; /* Padding: top/bottom, right, left (for icon) */
+  border: 1px solid #e9ecef; /* Softer border */
+  background-color: #f8f9fa; /* Light grey background */
+  border-radius: 30px; /* Rounded corners */
+  font-size: 1rem;
+  color: #495057;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input::placeholder {
+  color: #adb5bd;
+}
+
+.input-group input:focus {
+  border-color: #80bdff; /* Blue focus border */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Blue focus glow */
+  background-color: #fff; /* Optional: white background on focus */
+}
+/* Adjust icon color on focus */
+.input-group input:focus + .input-icon, /* If icon is after input */
+.input-group input:focus ~ .input-icon {
+  /* If icon is sibling */
+  color: #495057;
+}
+
+.forgot-password {
+  display: block; /* Take full line */
+  text-align: right; /* Align to the right */
+  font-size: 0.85rem;
+  color: #007bff; /* Blue link color */
+  margin-top: -0.5rem; /* Adjust spacing relative to password input */
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+}
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  background-color: #007bff; /* Primary blue */
+  color: #fff;
+  border: none;
+  border-radius: 30px; /* Rounded corners */
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1.5rem; /* Space below button */
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+
+.signup-link {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.signup-link a {
+  color: #007bff; /* Blue link color */
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Add styles for error messages if needed */
+.error-message {
+  color: #dc3545; /* Red for errors */
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* --- Responsive Styles --- */
+
+/* Combined Media Queries */
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+  .contact-container {
+    gap: 1.5rem;
+    padding: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  .contact-map-area {
+    min-height: 350px;
+    margin-top: 2rem;
+  }
+  .checkout-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  } /* Stack payment page */
+  .order-summary {
+    position: static;
+    margin-top: 2rem;
+  }
+  .payment-details {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
     h2 {
         font-size: 1.8rem;
     }
-
-    form {
-        padding: 15px 20px;
+    h3 {
+        font-size: 1.3rem;
     }
 
-    .submit-btn {
-        font-size: 0.9rem;
-        padding: 8px 15px;
+    .overview-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    } /* Stack trip details */
+
+    /* --- Hamburger Menu Styles --- */
+
+    /* Hide desktop versions in header */
+    .navbar .container .nav-links,
+    .navbar .container .auth-buttons {
+        display: none;
     }
-}
 
-.payment-section {
-    flex: 1 1 100%;
-    margin-top: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f8f9fa;
-    box-sizing: border-box; 
-}
+    /* Show hamburger */
+    .hamburger {
+        display: flex;
+    }
+    .hamburger.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
 
-.payment-section h3 {
-    margin-bottom: 15px;
-    font-size: 1.4em;
-    color: #333;
-}
+    /* Style .nav-links.active as the SINGLE dropdown container */
+    .nav-links.active {
+        display: flex; /* Make visible & use flex */
+        flex-direction: column; /* Stack links and button container vertically */
+        position: absolute;
+        /* !!! ADJUST THIS VALUE based on your actual header height !!! */
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        border-bottom: 1px solid #eee;
+        padding: 0.5rem 0; /* Only top/bottom padding initially */
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999; /* Ensure high z-index, but below header */
+        gap: 0; /* Remove gap between direct children (li and potentially auth-buttons div if nested) */
+    }
 
-.submit-btn {
+    /* Style nav links themselves */
+    .nav-links.active li {
+        width: 100%; /* Ensure list items take full width */
+    }
+    /* Target only nav links (<a> directly in li), exclude button-styled links */
+    .nav-links.active li > a:not([class*="-btn"]) {
+        display: block;
+        padding: 0.8rem 1rem;
+        color: #333;
+        border-bottom: 1px solid #f0f0f0;
+        font-weight: 500;
+        text-decoration: none; /* Ensure no underline */
+    }
+    .nav-links.active li:last-child > a:not([class*="-btn"]) {
+        border-bottom: none; /* Remove border from last nav link */
+    }
+    /* Style active page link in mobile */
+    .nav-links.active a.active:not([class*="-btn"]) {
+        color: #007bff;
+        font-weight: bold;
+        background-color: #f0f7ff;
+    }
+
+    /* Style the auth-buttons container *when active* to flow inside nav-links */
+    .auth-buttons.active {
+        display: flex; /* Make visible */
+        flex-direction: column;
+        align-items: center;
+        position: static; /* <<< Renders in flow AFTER the <li> elements */
+        width: 100%;
+        padding: 1rem 0 1.5rem 0; /* Add padding above/below buttons */
+        gap: 0.75rem;
+        /* NO background/border/shadow needed - it's inside the .nav-links box */
+        border-top: 1px solid #eee; /* Separator line above buttons */
+    }
+
+    /* Style buttons within the active auth container */
+    /* Select the <a> tags with button classes */
+    .auth-buttons.active a.login-btn,
+    .auth-buttons.active a.signup-btn {
+        display: block; /* Make links behave like block buttons */
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        /* Re-apply button styling */
+        border-radius: 30px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        font-weight: 500;
+        border: 1px solid; /* Add base border */
+    }
+    .auth-buttons.active a.login-btn {
+        background-color: #fff;
+        color: #007bff;
+        border-color: #007bff;
+    }
+    .auth-buttons.active a.signup-btn {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+    .auth-buttons.active a.login-btn:hover { background-color: #f0f7ff; }
+    .auth-buttons.active a.signup-btn:hover { background-color: #0056b3; border-color: #0056b3;}
+
+
+    /* --- Other Responsive Styles --- */
+    /* Keep your other existing styles for gallery, footer, booking, etc. within this media query */
+    .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .footer-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1.5rem; }
+    .footer-bottom { flex-direction: column; text-align: center; gap: 1.5rem; }
+    .copyright-links { order: 1; margin-top: 0; }
+    .social-icons { order: 2; margin-top: 0; }
+    .language-select { order: 0; }
+    .booking-container { padding: 1.5rem; }
+    .booking-container h2 { font-size: 1.8rem; }
+    .confirmation-box { padding: 2rem; }
+    .confirmation-box h2 { font-size: 1.8rem; }
+    .success-icon { font-size: 3.5rem; }
+
+} /* End of @media (max-width: 768px) */
+
+@media (max-width: 576px) {
+  h2 {
+    font-size: 1.6rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+  .auth-buttons.active {
+    /* Adjust mobile menu button stacking if needed */
+  }
+  .nav-links.active a {
+    padding: 0.7rem 1rem;
+  } /* Adjust padding */
+
+  .trips-grid {
+    grid-template-columns: 1fr;
+  }
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  .subscribe-form input[type="email"] {
     width: 100%;
-    background-color: #007bff;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1em;
-}
+    min-width: unset;
+  }
+  .subscribe-form button {
+    width: 100%;
+  }
 
-.submit-btn:hover {
-    background-color: #0056b3;
-    cursor: pointer;
-}
+  .contact-container {
+    padding: 1rem;
+  }
+  .submit-btn {
+    width: 100%;
+  } /* Apply to contact button */
 
+  .nav-buttons-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-button {
+    width: 100%;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+  }
+  .footer-col h4 {
+    margin-bottom: 0.5rem;
+  }
+
+  .address-row,
+  .card-details-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .address-row .form-group,
+  .card-details-row .form-group {
+    flex-basis: auto;
+  }
+  .payment-details {
+    padding: 1.5rem 1rem;
+  }
+  .order-summary {
+    padding: 1rem;
+  }
+  .order-summary h3 {
+    font-size: 1.2rem;
+  }
+  .summary-total .total-amount {
+    font-size: 1.2rem;
+  }
+  .confirm-order-btn {
+    font-size: 1rem;
+  } /* Payment button */
+  .coupon-section {
+    /* Adjust if needed */
+  }
+  .apply-coupon-btn {
+    padding: 0.7rem 0.8rem;
+  }
+
+  .booking-container {
+    padding: 1rem;
+  }
+  .booking-form .form-group input[type="number"] {
+    max-width: none;
+  }
+
+  .confirmation-box {
+    padding: 1.5rem;
+  }
+  .confirmation-box h2 {
+    font-size: 1.6rem;
+  }
+  .success-icon {
+    font-size: 3rem;
+  }
+  .confirmation-message {
+    font-size: 1rem;
+  }
+  .booking-summary-confirmation {
+    padding: 1rem;
+  }
+  .booking-summary-confirmation p strong {
+    min-width: 100px;
+  }
+} /* End of @media (max-width: 576px) */

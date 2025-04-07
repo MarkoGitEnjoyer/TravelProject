@@ -1,0 +1,65 @@
+{% extends 'main/mainlayout.html' %}
+{% load static %}
+
+{% block title %}Book Your Trip: {{ trip.name }}{% endblock %}
+
+{% block content %}
+<section class="booking-section">
+    <div class="container">
+        <div class="booking-container"> {# Added container for centering/styling #}
+            <h2>Book Your Trip: {{ trip.name }}</h2>
+
+            {# Optional Trip Summary #}
+            <div class="trip-summary">
+                {% if trip.date %}<p><strong>Date:</strong> {{ trip.date }}</p>{% endif %}
+                {% if trip.cost %}<p><strong>Cost per Ticket:</strong> ${{ trip.cost }}</p>{% endif %}
+                 {# Add more summary details if desired #}
+            </div>
+
+            <form action="{% url 'book_trip' trip.trip_id %}" method="POST" class="booking-form">
+                {% csrf_token %}
+
+                <h3>Your Information</h3>
+
+                <div class="form-group">
+                    <label for="num_travelers">Number of Travelers</label>
+                    {# Added some basic styling classes if needed, reusing form-group structure #}
+                    <input type="number" id="num_travelers" name="num_travelers" min="1" value="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number (Optional)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="e.g., +1 555 123 4567">
+                </div>
+
+                <div class="form-group">
+                    <label for="requests">Special Requests (Optional)</label>
+                    <textarea id="requests" name="requests" rows="4" placeholder="Any dietary needs, accessibility requirements, etc."></textarea>
+                </div>
+
+                {# Basic Total Cost Display (dynamic update would need JS) #}
+                {# You might calculate/display this more formally after form submission #}
+                {% if trip.cost %}
+                <div class="estimated-cost">
+                     <p>Starts from ${{ trip.cost }} per traveler.</p>
+                </div>
+                {% endif %}
+
+                <button type="submit" class="submit-btn booking-confirm-btn">Confirm Booking & Proceed</button>
+                 {# Text implies next step might be payment/confirmation #}
+
+            </form>
+        </div> {# End booking-container #}
+    </div> {# End container #}
+</section>
+{% endblock %}

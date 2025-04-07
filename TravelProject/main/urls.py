@@ -10,6 +10,9 @@ urlpatterns = [
     path("trip_info/<int:trip_id>/", views.trip_info, name="trip_info"),
     path("", views.home, name="home"),
     path("trip_list/", views.trip_list, name="trip_list"),
+    path('book/<int:trip_id>/', views.booking_view, name='book_trip'),
+    path('ajax/validate-coupon/', views.validate_coupon_view, name='validate_coupon'),
+    path('payment/<int:booking_id>/', views.payment_view, name='pay_trip'),
     path('registrations/edit/<int:id>/', views.update_registration, name='update_registration'),
     path('registrations/delete/<int:id>/', views.delete_registration, name='delete_registration'),
     path("spreadsheet/", views.spreadsheet, name="spreadsheet"),
@@ -27,8 +30,6 @@ urlpatterns = [
     views.send_custom_email,
     name='send_custom_email'
 ),
-
-
 
 ] 
 if settings.DEBUG:

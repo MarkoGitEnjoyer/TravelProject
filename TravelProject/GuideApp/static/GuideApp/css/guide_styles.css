@@ -1,0 +1,234 @@
+/* === guide_styles.css === */
+/* Styles specific to the Guide App interface */
+
+/* --- Basic Reset & Body --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%; /* Base font size */
+}
+
+body.guide-app-body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f5f7; /* Light grey background for the app */
+    color: #333;
+    line-height: 1.5;
+    /* Ensure content doesn't go under bottom nav */
+    padding-bottom: 70px; /* Height of bottom nav + some buffer */
+}
+
+.app-content {
+    /* Optional wrapper if needed for layout above nav */
+}
+
+.container {
+    max-width: 100%; /* Take full width */
+    padding: 0 1rem; /* Standard padding left/right */
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+}
+
+/* --- Guide Header --- */
+.guide-header {
+    background-color: #fff; /* White header */
+    padding: 1rem 0;
+    border-bottom: 1px solid #e9ecef;
+    position: sticky; /* Make header sticky */
+    top: 0;
+    z-index: 100; /* Below main navbar if integrating */
+}
+.guide-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.guide-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    flex-grow: 1; /* Allow title to take space and center */
+}
+.guide-header .header-left,
+.guide-header .header-right {
+    flex-basis: 50px; /* Allocate space for icons */
+    display: flex;
+    justify-content: center;
+}
+.guide-header .header-right {
+     justify-content: flex-end; /* Align right icon */
+}
+
+.filter-btn {
+    font-size: 1.2rem;
+    color: #6c757d;
+    padding: 0.5rem;
+}
+
+/* --- Search Section --- */
+.search-section {
+    padding: 1rem 0;
+    background-color: #fff; /* Match header */
+    border-bottom: 1px solid #e9ecef; /* Optional separator */
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    color: #adb5bd;
+    font-size: 0.9rem;
+}
+
+.search-bar input[type="search"] {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem; /* Left padding for icon */
+    border-radius: 30px; /* Rounded */
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa; /* Very light grey */
+    font-size: 1rem;
+    color: #495057;
+}
+.search-bar input[type="search"]::placeholder {
+    color: #adb5bd;
+}
+.search-bar input[type="search"]:focus {
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+
+/* --- Trip List Section --- */
+.trip-list-section {
+    padding: 1rem 0;
+}
+
+.trip-list {
+    display: grid;
+    gap: 1rem; /* Space between cards */
+}
+
+.trip-card-guide {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr auto; /* Text takes space, image auto width */
+    gap: 1rem; /* Space between text and image */
+    align-items: center; /* Vertically align content */
+    border: 1px solid #e9ecef;
+}
+
+.trip-info h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.trip-info p {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.3rem;
+    display: flex; /* Align icons and text */
+    align-items: center;
+}
+.trip-info p i.fa-fw { /* Fixed width icons for alignment */
+    margin-right: 0.5em;
+    color: #adb5bd; /* Lighter icon color */
+    width: 1.2em; /* Ensure consistent alignment */
+}
+
+.trip-details-btn {
+    display: inline-block; /* Button alignment */
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #007bff;
+    color: #007bff;
+    border-radius: 30px; /* Rounded */
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    background-color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.trip-details-btn:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.trip-image img {
+    width: 80px; /* Adjust image size */
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px; /* Rounded image corners */
+}
+
+/* --- Bottom Navigation Bar --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch; /* Make items fill height */
+    padding: 0.5rem 0;
+    border-top: 1px solid #e9ecef;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1; /* Distribute space */
+    color: #6c757d; /* Default grey color */
+    text-decoration: none;
+    padding: 0.25rem 0;
+    transition: color 0.3s ease;
+}
+
+.nav-item i {
+    font-size: 1.4rem; /* Icon size */
+    margin-bottom: 0.2rem;
+}
+
+.nav-item span {
+    font-size: 0.7rem; /* Label size */
+    font-weight: 500;
+}
+
+.nav-item.active {
+    color: #007bff; /* Active blue color */
+}
+.nav-item:hover {
+     color: #0056b3; /* Darker blue on hover */
+}

@@ -1,0 +1,76 @@
+{% extends 'guide_layout.html' %}
+{% load static %}
+
+{% block title %}Guide Home{% endblock %}
+
+{% block content %}
+<header class="guide-header">
+    <div class="container">
+        {# Empty div for spacing or potentially a back button on other pages #}
+        <div class="header-left"></div>
+        <h1>Home</h1>
+        <div class="header-right">
+            <button class="filter-btn" aria-label="Filter trips">
+                <i class="fas fa-filter"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<section class="search-section">
+    <div class="container">
+        <div class="search-bar">
+            <i class="fas fa-search search-icon"></i>
+            <input type="search" placeholder="Search trips...">
+        </div>
+    </div>
+</section>
+
+<section class="trip-list-section">
+    <div class="container">
+        <div class="trip-list">
+            {# --- Start Loop Through Assigned Trips (from Django context) --- #}
+            {# Example Trip 1 #}
+            <div class="trip-card-guide">
+                <div class="trip-info">
+                    <h4>Bali Escape</h4>
+                    <p><i class="fas fa-qrcode fa-fw"></i> Check-in QR code available</p>
+                    <p><i class="fas fa-users fa-fw"></i> Manage attendees easily</p>
+                     {# Link to specific trip attendee list page #}
+                    <a href="#" class="trip-details-btn">View Details</a>
+                </div>
+                <div class="trip-image">
+                    <img src="{% static 'images/bali_placeholder.jpg' %}" alt="Bali Escape"> {# Replace with actual image path #}
+                </div>
+            </div>
+
+            {# Example Trip 2 #}
+            <div class="trip-card-guide">
+                 <div class="trip-info">
+                    <h4>Alps Adventure</h4>
+                    <p><i class="fas fa-qrcode fa-fw"></i> Check-in QR code available</p>
+                    <p><i class="fas fa-tasks fa-fw"></i> Plan your activities</p>
+                    <a href="#" class="trip-details-btn">View Details</a>
+                </div>
+                <div class="trip-image">
+                    <img src="{% static 'images/alps_placeholder.jpg' %}" alt="Alps Adventure"> {# Replace with actual image path #}
+                </div>
+            </div>
+
+             {# Example Trip 3 #}
+            <div class="trip-card-guide">
+                <div class="trip-info">
+                    <h4>Tokyo Lights</h4>
+                    <p><i class="fas fa-qrcode fa-fw"></i> Check-in QR code available</p>
+                    <p><i class="fas fa-user-cog fa-fw"></i> Explore attendee options</p>
+                    <a href="#" class="trip-details-btn">View Details</a>
+                </div>
+                <div class="trip-image">
+                    <img src="{% static 'images/tokyo_placeholder.jpg' %}" alt="Tokyo Lights"> {# Replace with actual image path #}
+                </div>
+            </div>
+            {# --- End Loop --- #}
+        </div>
+    </div>
+</section>
+{% endblock %}

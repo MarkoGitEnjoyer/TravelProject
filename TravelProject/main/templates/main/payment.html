@@ -1,0 +1,150 @@
+{% extends 'main/mainlayout.html' %}
+{% load static %}
+
+{% block title %}Secure Checkout{% endblock %}
+
+{% block content %}
+<section class="payment-section">
+    <div class="container">
+        <h2>Secure Checkout</h2>
+
+        <div class="checkout-container">
+
+            {# --- Left Column: Payment Details --- #}
+            <div class="payment-details">
+                 {# Main payment form #}
+                <form action="{% url 'pay_trip' booking_id=registration.id %}" method="POST" id="payment-form"
+                data-registration-id="{{ registration.id }}" {# Pass registration ID here #}
+                data-initial-total="{{ final_total|default:0|stringformat:'f' }}" {# Pass initial total here #}>
+                    {% csrf_token %}
+
+                    {# Display NON-COUPON General Errors passed from payment_view #}
+                    {% if errors.general %}
+                        <p class="error-message general-error">{{ errors.general }}</p>
+                    {% endif %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if 'coupon' not in message.tags %} {# Avoid showing coupon messages here #}
+                            <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {# --- Billing Address Section --- #}
+                    <section class="form-section">
+                        <h3>Billing Address</h3>
+                        {# ... Billing address fields ... (ensure names/ids are correct) #}
+                         <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your name" required value="{{ form_data.name|default:registration.first_name|add:' '|add:registration.last_name|default:'' }}">
+                        </div>
+                         <div class="form-group">
+                             <label for="address">Address</label>
+                             <input type="text" id="address" name="address" placeholder="Enter your street address" required value="{{ form_data.address|default:'' }}">
+                         </div>
+                         <div class="address-row">
+                            <div class="form-group city">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" placeholder="Enter your city" required value="{{ form_data.city|default:'' }}">
+                            </div>
+                            <div class="form-group state">
+                                <label for="state">State / Province</label>
+                                <input type="text" id="state" name="state" placeholder="Enter your state" value="{{ form_data.state|default:'' }}">
+                            </div>
+                         </div>
+                          <div class="address-row">
+                            <div class="form-group zip">
+                                <label for="zip">Zip / Postal Code</label>
+                                <input type="text" id="zip" name="zip" placeholder="Enter zip code" required value="{{ form_data.zip|default:'' }}">
+                            </div>
+                            <div class="form-group country">
+                                <label for="country">Country</label>
+                                <select id="country" name="country" required>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="IL">Israel</option>
+                                </select>
+                            </div>
+                         </div>
+                    </section>
+
+                    {# --- Payment Method Section --- #}
+                    <section class="form-section">
+                        <h3>Payment Method</h3>
+                        {# --- IMPORTANT: Payment Gateway Integration --- #}
+                        <div class="form-group">
+                             <label for="card-number">Card Number</label>
+                             <input type="text" id="card-number" name="card-number" inputmode="numeric" placeholder="Enter card number" required>
+                          </div>
+                          <div class="form-group">
+                             <label for="card-name">Name on Card</label>
+                             <input type="text" id="card-name" name="card-name" placeholder="Enter name as it appears on card" required>
+                          </div>
+                          <div class="card-details-row">
+                              <div class="form-group expiry">
+                                 <label for="card-expiry">Expiry Date</label>
+                                 <input type="text" id="card-expiry" name="card-expiry" placeholder="MM / YY" required>
+                              </div>
+                              <div class="form-group cvc">
+                                 <label for="card-cvc">CVC</label>
+                                 <input type="text" id="card-cvc" name="card-cvc" inputmode="numeric" placeholder="Enter CVC" required>
+                              </div>
+                          </div>
+                          <small class="payment-info-text">Your payment details are processed securely.</small>
+                        {# --- End Payment Placeholder --- #}
+                    </section>
+
+                    {# Hidden input for validated coupon code #}
+                    <input type="hidden" name="applied_coupon_code" id="applied-coupon-code" value="{{ applied_coupon_code|default:'' }}">
+
+                    <button type="submit" class="confirm-order-btn">Confirm Order & Pay</button>
+
+                </form>
+            </div>
+
+            {# --- Right Column: Order Summary --- #}
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+
+                <div class="summary-details">
+                    <div class="summary-item trip-name"><span>Trip</span><span>{{ registration.trip.name|default:'N/A' }}</span></div>
+                    <div class="summary-item"><span>Travelers</span><span>{{ num_travelers|default:1 }}</span></div>
+                    <div class="summary-item"><span>Price per Traveler</span><span>${{ registration.trip.cost|floatformat:2 }}</span></div>
+                    <hr class="summary-separator">
+                    <div class="summary-item"><span>Subtotal</span><span id="subtotal-value">${{ subtotal|floatformat:2 }}</span></div>
+                    {# Discount Row - initially hidden #}
+                    <div class="summary-item coupon-discount" id="coupon-discount-row" {% if not discount_amount or discount_amount <= 0 %}style="display: none;"{% endif %}>
+                        <span>Discount</span>
+                        <span id="coupon-discount-amount">-${{ discount_amount|default:0|floatformat:2 }}</span>
+                    </div>
+                </div>
+
+                {# --- Coupon Code Input Section --- #}
+                <div class="coupon-section">
+                    <div class="form-group">
+                        <label for="coupon-input" class="sr-only">Coupon Code</label>
+                        {# Use a different name if needed to avoid conflict, or handle on server #}
+                        <input type="text"  class="coupon-input" id="coupon-input" placeholder="Enter Coupon Code" value="{{ applied_coupon_code|default:'' }}">
+                    </div>
+                    <button type="button" id="apply-coupon-btn" class="apply-coupon-btn"  data-validate-url="{% url 'validate_coupon' %}">Apply</button>
+                </div>
+                {# Area to display coupon messages from AJAX #}
+                <p class="coupon-message" id="coupon-message"></p>
+
+                {# --- Final Total --- #}
+                <div class="summary-total">
+                    <span>Total Price</span>
+                    <span class="total-amount" id="total-amount-value">${{ final_total|floatformat:2 }}</span>
+                </div>
+            </div> {# End order-summary #}
+
+        </div> {# End checkout-container #}
+    </div> {# End container #}
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+{# Add JavaScript here or in a linked guide_script.js file #}
+
+{% endblock %}

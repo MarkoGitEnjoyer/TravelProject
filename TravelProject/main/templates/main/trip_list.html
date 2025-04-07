@@ -1,34 +1,33 @@
-{% extends 'main/mainlayout.html' %}
-
-{% load static %}
-
-{% block title %}
-Trips
-{% endblock %}
-
+{% extends 'main/mainlayout.html' %} {# Or the correct path to your base
+template #} {% load static %} {% block title %}Home - TripExplorer{% endblock %}
 {% block content %}
-<div class="main-container mt-4">
-    <h1 style="color:#2318be;" class="text-center">Available Trips</h1>
-    <div class="row">
-        {% for trip in trips %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ trip.image.url }}" class="card-img-top" alt="{{ trip.name }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ trip.name }}</h5>
-                    <p class="card-text">{{ trip.minimizedDescription }}</p>
-                    <ul>
-                        <li>Date: {{ trip.date }}</li>
-                        <li>Time: {{ trip.time }}</li>
-                        <li>Meeting Point: {{ trip.meeting_point }}</li>
-                        <li>Cost: ${{ trip.cost }}</li>
-                    </ul>
-                    <a href="{% url 'trip_info' trip.trip_id %}" class="btn btn-primary">Learn More</a>
-                    
-                </div>
-            </div>
-        </div>
-        {% endfor %}
+<section class="featured-trips">
+  <div class="container">
+    <h2>Featured Trips</h2>
+    <div class="trips-grid">
+      {% for trip in trips %}
+      <div class="trip-card">
+        <img src="{{ trip.image.url }}" alt="Maldives" />
+        <h3>{{ trip.name }}</h3>
+        <p>{{ trip.minimizedDescription }}</p>
+        {# Link to the specific trip detail page using url tag #}
+        <a href="{% url 'trip_info' trip.trip_id %}" class="learn-more-btn"
+          >Learn More</a
+        >
+      </div>
+      {% endfor %}
     </div>
-</div>
+  </div>
+</section>
+
+<section class="newsletter">
+  {# Newsletter section remains the same #}
+  <div class="container">
+    <h3>Subscribe to our newsletter</h3>
+    <form class="subscribe-form">
+      <input type="email" placeholder="Input your email" />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
 {% endblock %}

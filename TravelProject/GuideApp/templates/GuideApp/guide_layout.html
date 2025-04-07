@@ -1,0 +1,46 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> {# Prevent scaling #}
+    <title>{% block title %}Guide App{% endblock %} - TripExplorer</title>
+    {# Link Guide App CSS #}
+    <link rel="stylesheet" href="{% static 'css/guide_styles.css' %}"> {# NEW CSS FILE #}
+    {# Link Font Awesome #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="guide-app-body"> {# Add class for potential body styling #}
+
+    <div class="app-content"> {# Wrapper for content above bottom nav #}
+        {% block content %}
+        {# Page-specific content goes here #}
+        {% endblock %}
+    </div>
+
+    {# --- Bottom Navigation Bar --- #}
+    <nav class="bottom-nav">
+        {# Use url tags for actual links #}
+        {# Add 'active' class dynamically based on current page #}
+        <a href="{% url 'guide_home_url_name' %}" class="nav-item {% if active_page == 'guide_home' %}active{% endif %}">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item {% if active_page == 'guide_trips' %}active{% endif %}"> {# Link to future trips list #}
+            <i class="fas fa-suitcase-rolling"></i>
+            <span>Trips</span>
+        </a>
+        <a href="{% url 'guide_scan_url_name' %}" class="nav-item {% if active_page == 'guide_scan' %}active{% endif %}"> {# Link to QR Scanner page #}
+            <i class="fas fa-qrcode"></i>
+            <span>Check-In</span>
+        </a>
+        <a href="#" class="nav-item {% if active_page == 'guide_attendees' %}active{% endif %}"> {# Link to future attendees list #}
+            <i class="fas fa-users"></i>
+            <span>Attendees</span>
+        </a>
+    </nav>
+
+    <script src="{% static 'scripts/guide_script.js' %}"></script> {# Optional: New JS file for guide app #}
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

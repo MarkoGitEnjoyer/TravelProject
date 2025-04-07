@@ -37,3 +37,30 @@ class Registration(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+class Coupon(models.Model):
+    couponn_id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=20)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2,default=5.00)
+    is_active= models.BooleanField(default=True)
+
+class TripGalleryImage(models.Model):
+    # Link each image to a specific Trip
+    # related_name lets you access images from a trip object easily (e.g., trip.gallery_images.all())
+    trip = models.ForeignKey(Trip, related_name='gallery_images', on_delete=models.CASCADE)
+
+    # Field to store the uploaded image file
+    # 'upload_to' specifies a subdirectory within your MEDIA_ROOT where these images will go
+    photo = models.ImageField(upload_to='trip_gallery/')
+
+    # Optional fields
+    caption = models.CharField(max_length=150, blank=True, null=True)
+    alt_text = models.CharField(max_length=150, blank=True, null=True, help_text="Description for accessibility")
+
+    def __str__(self):
+        # How the object will be represented in the admin or shell
+        return f"Image for {self.trip.name}"
+
+    class Meta:
+        verbose_name = "Trip Gallery Image"
+        verbose_name_plural = "Trip Gallery Images"

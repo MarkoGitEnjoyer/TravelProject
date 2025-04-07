@@ -1,64 +1,79 @@
-{% load static %}
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>{% block title %}TripExplorer{% endblock %}</title> {# Default title #}
+
+    {# Link CSS #}
     <link rel="stylesheet" href="{% static 'main/css/test.css' %}">
-    <script src="{% static 'main/js/script.js' %}" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>{% block title %}{% endblock %}</title>
+
+    {# Link Font Awesome (keep CDN or download and serve statically) #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    {# Add any other head elements needed across all pages #}
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'trip_list' %}">My Trips</a>
-    
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Left-aligned items -->
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
-                    </li>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                {# Use url template tag for links #}
+                <a href="{% url 'trip_list' %}" class="logo">MyTrips</a> 
+                <ul class="nav-links">
+                    {# Use context variable 'active_page' passed from view to highlight link #}
+                    <li><a href="{% url 'contact_us' %}" class="{% if active_page == 'contact' %}active{% endif %}">Contact</a></li> {# Adjust URL name #}
                 </ul>
-    
-                <ul class="navbar-nav ms-auto">
-                    {% if not user.is_superuser %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Admin Login</a>
-                    </li>
-                    {% endif %}
-    
-                    {% if user.is_superuser %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'spreadsheet' %}">Spreadsheet</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
-                    {% endif %}
-                </ul>
+                <div class="auth-buttons">
+                    {# Add logic for logged-in/out users if needed #}
+                    <a class="login-btn" href="{% url 'login' %}">Login</a> {# Link to login URL #}
+                </div>
+                <button class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-        </div>
-    </nav>
-    
+        </nav>
+    </header>
 
-    <main class="container mt-5">
+    <main>
+        {# Content unique to each page goes here #}
         {% block content %}
         {% endblock %}
     </main>
 
     <footer>
-        <p>Maxim Aizenbrg 326179900, Stav Granek 327847364, Marko Kordos 342542974</p>
+        {# Footer content remains the same #}
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul><li><a href="#">Features</a></li><li><a href="#">Pricing</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul><li><a href="#">Blog</a></li><li><a href="#">User guides</a></li><li><a href="#">Webinars</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul><li><a href="#">About us</a></li><li><a href="#">Contact us</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Plans & Pricing</h4>
+                <ul><li><a href="#">Personal</a></li><li><a href="#">Start up</a></li><li><a href="#">Organization</a></li></ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <div class="language-select"><select><option>English</option></select></div>
+            <div class="copyright-links"><span>© {% now "Y" %} Brand, Inc.</span><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Sitemap</a></div>
+            <div class="social-icons"><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div>
+        </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {# Link JavaScript #}
+    <script src="{% static 'main/scripts/script.js' %}"></script>
+    <script src="{% static 'main/scripts/couponScript.js' %}"></script>
+    {# Add any other scripts needed across all pages #}
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

@@ -1,25 +1,63 @@
-{% extends 'main/mainlayout.html' %}
+{% load static %}
 
 {% block title %}
-Login
+
 {% endblock %}
 
 {% block content %}
-<div class="registration-form-container">
-    <h1>Login</h1>
-    <form method="POST" action="/login/">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Login - TripExplorer</title>
+    <link rel="stylesheet" href="{% static 'main/css/test.css' %}">
+    {# Link Font Awesome for icons #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        
+        html, body { height: 100%; margin: 0; }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff; /* Or a very light grey */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
 
-        <button type="submit" class="btn-submit">Login</button>
-    </form>
+    <div class="login-container">
+        <h1>Access Account</h1>
+        <p class="subtitle">Discover your next adventure</p>
 
-</div>
+        {# Replace action with your actual login URL #}
+        <form action="/login/" method="POST" class="login-form">
+             {% csrf_token %} 
+
+            <div class="input-group">
+                <i class="input-icon fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Your email address" required>
+            </div>
+
+            <div class="input-group">
+                <i class="input-icon fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            {# Replace href with your password reset URL #}
+            <a href="#" class="forgot-password">Forget your password?</a>
+
+            <button type="submit" class="login-button">Log In</button>
+
+        </form>
+
+        <div class="signup-link">
+            Need to create an account? <a href="#">Sign Up</a> {# Replace href with signup URL #}
+        </div>
+    </div>
+
+</body>
+</html>
 {% endblock %}

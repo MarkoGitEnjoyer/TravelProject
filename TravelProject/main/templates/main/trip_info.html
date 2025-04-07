@@ -1,66 +1,137 @@
 {% extends 'main/mainlayout.html' %}
 {% load static %}
 
-{% block title %}
-Trip Information
-{% endblock %}
+{% block title %}{{ trip.name|default:"Trip Details" }} - TripExplorer{% endblock %} {# Example: Use trip name from context #}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center" style="color: #2318be;">{{ trip.name }}</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <img src="{{ trip.image.url }}" class="img-fluid rounded" alt="{{ trip.name }}">
-        </div>
-        <div class="col-md-6">
-            <h3>Description</h3>
-            <p>{{ trip.description }}</p>
-            <ul class="list-group">
-                <li class="list-group-item"><strong>Date:</strong> {{ trip.date }}</li>
-                <li class="list-group-item"><strong>Time:</strong> {{ trip.time }}</li>
-                <li class="list-group-item"><strong>Meeting Point:</strong> {{ trip.meeting_point }}</li>
-                <li class="list-group-item"><strong>Cost per Ticket:</strong> ${{ trip.cost }}</li>
-                
-                {% if trip.equipment_needed %}
-                <li class="list-group-item">
-                    <strong>Equipment Needed:</strong>
-                    <div class="mt-2">{{ trip.equipment_needed|linebreaks }}</div>
-                </li>
+<main>
+    <section class="trip-overview">
+        {# 1. Grid container for Image+Desc | Details layout #}
+        <div class="container overview-grid">
+
+            {# --- Left Column (Image + Description) --- #}
+            <div class="overview-left-column">
+                <div class="overview-image">
+                    <img src="{{ trip.image.url }}" alt="{{ trip.name|default:'Trip' }}"> {# Replace with actual/dynamic image #}
+                </div>
+                {% if trip.description %}
+                    {# Description placed here, under the image in the left column #}
+                    <p class="trip-description">{{ trip.description }}</p>
                 {% endif %}
-            </ul>
-            
-            <div class="mt-3 mb-4">
-                <div class="btn-group w-100" role="group">
-                    {% if trip.meeting_point_coordinates %}
-                    <a href="https://www.google.com/maps/search/?api=1&query={{ trip.meeting_point_coordinates }}" 
-                       target="_blank" class="btn btn-info">
-                        <i class="bi bi-geo-alt-fill"></i> Google Maps
-                    </a>
-                    <a href="https://waze.com/ul?ll={{ trip.meeting_point_coordinates }}&navigate=yes" 
-                       target="_blank" class="btn btn-success">
-                        <i class="bi bi-cursor-fill"></i> Waze
-                    </a>
-                    {% else %}
-                    <a href="https://www.google.com/maps/search/?api=1&query={{ trip.meeting_point|urlencode }}" 
-                       target="_blank" class="btn btn-info">
-                        <i class="bi bi-geo-alt-fill"></i> Google Maps
-                    </a>
-                    <a href="https://waze.com/ul?q={{ trip.meeting_point|urlencode }}&navigate=yes" 
-                       target="_blank" class="btn btn-success">
-                        <i class="bi bi-cursor-fill"></i> Waze
-                    </a>
+            </div>
+
+            {# --- Right Column (Details) --- #}
+            <div class="overview-details">
+                {# Main Title goes here #}
+                <h2>{{ trip.name|default:"Trip Overview" }}</h2>
+
+                
+
+             
+                
+
+                {# --- Meeting Point Section --- #}
+                {% if trip.meeting_point %}
+                <div class="detail-section">
+                    <h3>Meeting Point</h3>
+                    <p>{{ trip.meeting_point }}</p>
+                </div>
+                {% endif %}
+
+                {# --- Pricing Section --- #}
+                <div class="detail-section">
+                    <h3>Pricing</h3>
+                    {% if trip.cost %} <p><strong>Price per Ticket:</strong> ${{ trip.cost }}</p>
+                    {% else %} <p>Contact us for pricing.</p> {% endif %}
+                    <p>Deposit: ${{ trip.deposit|default:"500" }}</p>
+                    <p>Balance: Due 30 days before departure</p>
+                    <p><small>VAT included</small></p>
+                </div>
+
+                {# --- Inclusions & Equipment Section --- #}
+                <div class="detail-section">
+                    <h3>Inclusions & Equipment</h3>
+                    <ul class="inclusions-list">
+                        <li>Meals included</li>
+                        <li>Accommodation Included</li>
+                        <li>Transport is free</li>
+                        <li>Tents provided</li>
+                    </ul>
+                    {% if trip.equipment_needed %}
+                        <div class="equipment-needed">
+                            <strong>Equipment Needed:</strong>
+                            <div>{{ trip.equipment_needed|linebreaks }}</div>
+                        </div>
                     {% endif %}
                 </div>
-            </div>
-            
-            <form action="{% url 'registration' trip.trip_id %}" method="get" class="mt-3">
-                <div class="mb-3">
-                    <label for="tickets" class="form-label"><strong>Number of Tickets:</strong></label>
-                    <input type="number" id="tickets" name="tickets" class="form-control" min="1" value="1" required>
+
+                {# --- Navigation Section --- #}
+                <div class="detail-section navigation-section">
+                    <h3>Navigation</h3>
+                    <p>Open the primary destination in your preferred map app:</p>
+                    
+                    <div class="nav-buttons-container">
+                        {% if trip.meeting_point_coordinates %}
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ trip.meeting_point_coordinates }}" target="_blank" rel="noopener noreferrer" class="nav-button google-maps-btn">
+                            <i class="fas fa-map-marker-alt"></i> Google Maps
+                        </a>
+                        <a href="https://waze.com/ul?ll={{ trip.meeting_point_coordinates }}&navigate=yes" target="_blank" rel="noopener noreferrer" class="nav-button waze-btn">
+                            <i class="fab fa-waze"></i> Waze
+                        </a>
+                        {% else%}
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ trip.meeting_point|urlencode }}" target="_blank" rel="noopener noreferrer" class="nav-button google-maps-btn">
+                            <i class="fas fa-map-marker-alt"></i> Google Maps
+                        </a>
+                        <a href="https://waze.com/ul?q={{ trip.meeting_point|urlencode }}&navigate=yes" target="_blank" rel="noopener noreferrer" class="nav-button waze-btn">
+                            <i class="fab fa-waze"></i> Waze
+                        </a>
+                        {% endif %}
+                    </div>
+                   
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Register</button>
-            </form>
+
+            </div> {# End of overview-details (Right Column) #}
+
+        </div> {# End of overview-grid container #}
+
+    </section> {# End of trip-overview section #}
+
+
+    {# ***** PHOTO GALLERY SECTION ***** #}
+    <section class="photo-gallery">
+    <div class="container">
+        <h2>Photo Gallery</h2>
+        <div class="gallery-grid">
+            {# Loop through the gallery_images passed from the view #}
+            {% for image in gallery_images %}
+            <div class="gallery-item">
+                {% if image.photo %} {# Check if photo exists #}
+                    <img src="{{ image.photo.url }}" alt="{{ image.alt_text|default:image.caption|default:'Trip gallery image' }}">
+                {% else %}
+                     {# Optional: Show a placeholder if image file is missing #}
+                     <img src="{% static 'images/placeholder.jpg' %}" alt="Image not available">
+                {% endif %}
+
+                {% if image.caption %} {# Display caption if it exists #}
+                    <p>{{ image.caption }}</p>
+                {% endif %}
+            </div>
+            {% empty %}
+                {# Message if no images were uploaded for this trip #}
+                <p>No gallery images available for this trip yet.</p>
+            {% endfor %}
         </div>
     </div>
-</div>
+</section>
+
+    {# ***** CTA SECTION ***** #}
+    <section class="cta-section">
+        <div class="container">
+            <h2>Plan Your Trip Today</h2>
+            <p>Book your adventure or navigate to your destination with ease.</p>
+            <a href="{% url 'book_trip' trip.trip_id %}" class="cta-button">Get started</a> {# Link to booking/contact #}
+        </div>
+    </section>
+
+</main>
 {% endblock %}
