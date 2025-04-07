@@ -87,3 +87,68 @@ class RegistrationForm(forms.ModelForm):
                         self.initial['country_code'] = code
                         self.initial['phone_number'] = instance.phone[len(code):]
                         break
+class PaymentForm(forms.Form):
+    # Billing Address Fields
+    name = forms.CharField(
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your name'})
+    )
+    address = forms.CharField(
+        max_length=255,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your street address'})
+    )
+    city = forms.CharField(
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your city'})
+    )
+    state = forms.CharField(
+        max_length=100,
+        required=False, # Make optional if applicable
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your state'})
+    )
+    zip = forms.CharField(
+        label="Zip / Postal Code",
+        max_length=10,
+        required=True,
+        validators=[RegexValidator(r'^[a-zA-Z0-9\s\-]+$', 'Enter a valid zip/postal code.')], # Basic validation
+        widget=forms.TextInput(attrs={'placeholder': 'Enter zip code'})
+     )
+    country = forms.ChoiceField(
+        choices=[ # Add more countries as needed
+            ('IL', 'Israel'),
+            ('US', 'United States'),
+            ('CA', 'Canada'),
+            ('GB', 'United Kingdom'),
+        ],
+        required=True
+    )
+
+    # --- Placeholder Payment Fields ---
+    # !!! IMPORTANT SECURITY WARNING !!!
+    # DO NOT handle raw credit card numbers, expiry, CVC like this in production.
+    # Use a secure payment gateway integration (Stripe Elements, Braintree Hosted Fields, etc.)
+    # These fields are just placeholders to match your HTML structure for now.
+    # They should NOT store values submitted by the user directly in your database.
+    card_number = forms.CharField(
+        max_length=20, # Max length varies
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter card number', 'inputmode': 'numeric'})
+    )
+    card_name = forms.CharField(
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter name as it appears on card'})
+    )
+    card_expiry = forms.CharField(
+        max_length=7, # MM / YY
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'MM / YY'})
+    )
+    card_cvc = forms.CharField(
+        max_length=4,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter CVC', 'inputmode': 'numeric'})
+    )

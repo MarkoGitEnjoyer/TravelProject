@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from .models import Registration, Trip,Coupon
-from .forms import RegistrationForm
+from .forms import RegistrationForm,PaymentForm
 from io import BytesIO
 from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse
@@ -22,7 +22,7 @@ from GuideApp.models import Guide
 from vonage import Auth, Vonage
 from vonage_sms import SmsMessage, SmsResponse
 from django.contrib import messages
-
+from decimal import Decimal, InvalidOperation
 
 logger = logging.getLogger(__name__)
 
@@ -364,88 +364,147 @@ def booking_view(request, trip_id):
         return render(request, 'main/booking.html', context)
 
 def payment_view(request, booking_id):
-
     registration = get_object_or_404(Registration, id=booking_id)
-    
-    
-    original_total = (registration.trip.cost)
-    subtotal = registration.trip.cost  #change later after quantity update 
+    original_total = registration.trip.cost
+    # Ensure original_total is Decimal
+    if not isinstance(original_total, Decimal):
+        try:
+            original_total = Decimal(original_total)
+        except InvalidOperation:
+            messages.error(request, "Invalid trip cost.")
+            # Redirect back or handle error appropriately
+            return redirect('trip_list') # Redirect to a safe page
 
+    subtotal = original_total # Base subtotal
 
     if request.method == 'POST':
-        # === IMPORTANT: Payment Processing Logic ===
-        # 1. Get payment details from request.POST (card number, expiry, cvc etc.)
-        # 2. DO NOT handle raw card details directly unless PCI compliant.
-        # 3. Use a payment gateway library (Stripe, Braintree, etc.)
-        #    - Create a payment intent/charge using the gateway's API.
-        #    - Pass card details securely (often using gateway's JS library/elements).
-        # 4. If payment is successful:
-        #    - Update booking status from 'PENDING_PAYMENT' to 'CONFIRMED' or 'PAID'.
-        #    - Redirect to an order confirmation/success page.
-        # 5. If payment fails:
-        #    - Show an error message on the payment page.
-        #    - Do NOT change booking status.
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            # Form fields passed basic validation (required, field type)
+            # Access cleaned data: form.cleaned_data['field_name']
+            print("DEBUG: Payment form is valid.")
 
-        submitted_coupon_code = request.POST.get('applied_coupon_code', '').strip() # Get code from hidden input
-        final_discount_amount = Decimal('0.00')
+            submitted_coupon_code = form.cleaned_data.get('applied_coupon_code', '').strip()
+            final_discount_amount = Decimal('0.00')
+            tax_rate = Decimal('0.00') # Set your actual tax rate if applicable
 
-        if submitted_coupon_code:
+            if submitted_coupon_code:
+                print(f"DEBUG: Validating submitted coupon: {submitted_coupon_code}")
+                try:
+                    coupon = Coupon.objects.get(code__iexact=submitted_coupon_code, is_active=True)
+                    # Add other validation checks if needed (e.g., expiry, usage limits)
+                    discount_percentage = coupon.discount_percentage if coupon.discount_percentage is not None else Decimal('0.00')
+                    final_discount_amount = (original_total * (discount_percentage / Decimal('100'))).quantize(Decimal("0.01"))
+                    print(f"DEBUG: Coupon valid. Discount amount: {final_discount_amount}")
+                except Coupon.DoesNotExist:
+                    messages.error(request, f"Coupon '{submitted_coupon_code}' is no longer valid. Proceeding without discount.")
+                    final_discount_amount = Decimal('0.00')
+                except Exception as e:
+                    print(f"DEBUG: ERROR during coupon validation: {e}")
+                    messages.error(request, "An error occurred validating the coupon.")
+                    final_discount_amount = Decimal('0.00')
+
+            # --- Recalculate final total ---
+            print("DEBUG: Calculating final total...")
             try:
-            # Re-validate the coupon submitted with the main form
-                coupon = Coupon.objects.get(code__iexact=submitted_coupon_code, is_active=True)
-            # Add other validation checks as needed
+                price_after_discount = original_total - final_discount_amount
+                final_tax_calculated = (price_after_discount * tax_rate).quantize(Decimal("0.01"))
+                final_total_to_charge = price_after_discount + final_tax_calculated
+                if final_total_to_charge < 0: final_total_to_charge = Decimal('0.00')
+                print(f"DEBUG: Final total calculated: {final_total_to_charge}")
 
-            # Recalculate discount based on validated coupon & final cart state
-                discount_percentage = coupon.discount_percentage if coupon.discount_percentage is not None else Decimal('0.00')
-                final_discount_amount = (original_total * (discount_percentage / Decimal('100'))).quantize(Decimal("0.01"))
+                # === !!! Placeholder for Secure Payment Gateway Interaction !!! ===
+                # 1. Use form.cleaned_data (EXCEPT raw card details)
+                # 2. Send final_total_to_charge and other details (billing address, etc.)
+                #    to your payment gateway (Stripe, Braintree) using their Python library.
+                # 3. Handle the response from the gateway (success or failure).
+                
+                payment_successful = True # Assume success for now
+                # === End Placeholder ===
 
-            except Coupon.DoesNotExist:
-            # Coupon was likely valid via AJAX but became invalid before final submit OR user manipulated hidden field
-                messages.error(request, f"Coupon '{submitted_coupon_code}' is no longer valid. Proceeding without discount.")
-                final_discount_amount = Decimal('0.00') # Ensure no discount applied
+                if payment_successful:
 
-        # Recalculate final total based on server-side validation
-        # Apply discount before or after tax based on your logic
-            price_after_discount = original_total - final_discount_amount
-            final_tax_calculated = (price_after_discount * tax_rate).quantize(Decimal("0.01")) # Example tax calc
-            final_total_to_charge = price_after_discount + final_tax_calculated
-            if final_total_to_charge < 0: final_total_to_charge = Decimal('0.00')
-    
-            send_custom_email(
-                request,
-                recipient_email=registration.email,
-                first_name=registration.first_name,
-                last_name=registration.last_name,
-                trip_name=registration.trip.name,
-                message_string=f" for trip {registration.trip.name}",
-                user_phone=registration.phone,  # Changed from id_number to phone
-                SecretKey=dehash_number(int(registration.SecretKey)),
-            )
-            print(f"Simulating payment processing for Booking ID: {booking_id}") # Placeholder
-        # Redirect to a success page (replace 'home_view_name' appropriately)
-        # return redirect('your_order_success_url_name')
-            return redirect(reverse("confirmation", kwargs={"registration_id": registration.id})) 
-    else:
-        final_total = original_total  # No discount applied yet on GET
+                    
 
+                    send_custom_email(
+                    request,
+                    recipient_email=registration.email,
+                    first_name=registration.first_name,
+                    last_name=registration.last_name,
+                    trip_name=registration.trip.name,
+                    message_string=f" for trip {registration.trip.name}",
+                    user_phone=registration.phone,  # Changed from id_number to phone
+                    SecretKey=dehash_number(int(registration.SecretKey)),
+                    )
+
+                    
+                    # Redirect to confirmation page
+                    return redirect(reverse("confirmation", kwargs={"registration_id": registration.id}))
+                else:
+                    # Payment gateway failed
+                    messages.error(request, "Payment failed. Please try again or contact support.")
+                    # No redirect, fall through to re-render form with error message
+
+            except InvalidOperation:
+                 
+                 messages.error(request, "A calculation error occurred.")
+                 # No redirect, fall through to re-render form
+            except Exception as e:
+                 
+                 import traceback
+                 traceback.print_exc()
+                 messages.error(request, "An unexpected error occurred during payment processing.")
+                 # No redirect, fall through to re-render form
+
+        # --- Form is NOT valid OR payment failed ---
+        # Reaches here if form.is_valid() is False OR if payment_successful was False above
+        
+        if not form.is_valid(): # Add specific message only if form itself was invalid
+             messages.error(request, "Please correct the errors highlighted below.")
+
+        # Need context to re-render template with errors
         context = {
-            # === PASS THE CORRECT REGISTRATION OBJECT ===
-            'registration': registration, # Pass the actual object fetched earlier
-
-            # === PASS CALCULATED VALUES for Order Summary ===
+            'registration': registration,
+            'form': form, # Pass the bound form (contains errors if invalid)
+            # Recalculate totals as they were initially shown
             'num_travelers': 1,
             'subtotal': subtotal,
-            'applied_coupon_code': None, # No coupon on initial load
-            'discount_amount': Decimal('0.00'), # No discount on initial load
-            'final_total': final_total, # Pass the calculated total
-
-            # === Other needed context ===
-            'errors': {},
-            'form_data': {}, # Empty for initial load
+            'applied_coupon_code': form.cleaned_data.get('applied_coupon_code', '') if form.is_bound else None, # Show code user entered
+            'discount_amount': final_discount_amount if form.is_bound and 'final_discount_amount' in locals() else Decimal('0.00'), # Be careful here
+            'final_total': final_total_to_charge if form.is_bound and 'final_total_to_charge' in locals() else original_total, # Be careful here
+            'errors': form.errors, # Pass form errors explicitly if needed
+            'form_data': request.POST if form.is_bound else {}, # Pass POST data back? Careful with sensitive data
             'active_page': 'payment',
         }
-        # Ensure template path is correct
+        # Return render to show the form again with errors
+        return render(request, 'main/payment.html', context) # Provides the needed HttpResponse
+
+
+    else: # GET Request
+        
+        # Pre-populate form data if desired
+        initial_data = {
+            'name': f"{registration.first_name or ''} {registration.last_name or ''}".strip(),
+            # Add other initial data from registration if available
+            # 'address': registration.address, etc.
+        }
+        form = PaymentForm(initial=initial_data)
+        final_total = original_total # Initial total before any coupons
+
+        context = {
+            'registration': registration,
+            'form': form, # Pass the unbound form
+            'num_travelers': 1, # Adjust if needed
+            'subtotal': subtotal,
+            'applied_coupon_code': None,
+            'discount_amount': Decimal('0.00'),
+            'final_total': final_total,
+            'errors': {},
+            'form_data': {},
+            'active_page': 'payment',
+        }
         return render(request, 'main/payment.html', context)
+
 def Checkout(request, registration_id):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == "POST":
